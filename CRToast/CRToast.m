@@ -1116,6 +1116,7 @@ static CGFloat kCRCollisionTweak = 0.5;
 @property(nonatomic, strong) UIImageView *imageView;
 @property(nonatomic, strong) UILabel *label;
 @property(nonatomic, strong) UILabel *subtitleLabel;
+@property(nonatomic, strong) UIButton *closeButton;
 @end
 
 static CGFloat const kCRStatusBarViewNoImageLeftContentInset = 10;
@@ -1157,6 +1158,12 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
         self.subtitleLabel = subtitleLabel;
 
         self.isAccessibilityElement = YES;
+
+        UIButton *closeButton = [[UIButton alloc] initWithFrame:(CGRectZero)];
+        [closeButton setTitle:@"Close" forState:UIControlStateNormal];
+        closeButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [self addSubview:closeButton];
+        self.closeButton = closeButton;
     }
     return self;
 }
@@ -1180,8 +1187,15 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
                     CGRectGetHeight(contentFrame));
 
     self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2;
+    CGFloat buttonX = contentFrame.size.width - 5 - 40;
+    CGFloat buttonY = CGRectGetHeight(contentFrame) / 2 - 15;
+    CGFloat buttonWidth = 40;
+    CGFloat buttonHeight = 30;
+    self.closeButton.frame = (CGRect) {buttonX, buttonY, buttonWidth, buttonHeight};
+
     CGFloat x = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame);
-    CGFloat width = CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset;
+    CGFloat width = CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX;
+
 
     if (self.toast.subtitleText == nil)
     {
@@ -1208,13 +1222,13 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
         self.label.frame = CGRectMake(x,
                 offset + statusBarYOffset,
-                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX,
                 height);
 
 
         self.subtitleLabel.frame = CGRectMake(x,
                 height + offset + statusBarYOffset,
-                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX,
                 subtitleHeight);
     }
 }
