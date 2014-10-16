@@ -105,6 +105,8 @@ typedef NS_ENUM(NSInteger, CRToastAnimationType) {
     CRToastAnimationTypeGravity
 };
 
+extern  NSString *const ToastDidTouchCloseButtonNotification;
+
 ///--------------------
 /// @name Option Keys
 ///--------------------

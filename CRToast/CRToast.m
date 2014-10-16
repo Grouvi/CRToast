@@ -1129,6 +1129,8 @@ static CGFloat const kCRStatusBarViewNoImageRightContentInset = 10;
 
 static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
+NSString *const ToastDidTouchCloseButtonNotification = @"kDidTouchToastCloseButtonNotification";
+
 @implementation CRToastView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -1164,6 +1166,7 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
         closeButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:closeButton];
         self.closeButton = closeButton;
+        [self.closeButton addTarget:self action:@selector(didTouchCloseButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -1233,6 +1236,11 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
     }
 }
 
+-(void)didTouchCloseButton:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:ToastDidTouchCloseButtonNotification object:sender];
+}
+
 #pragma mark - Overrides
 
 - (void)setToast:(CRToast *)toast
@@ -1254,6 +1262,8 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
     _imageView.image = toast.image;
     self.backgroundColor = toast.backgroundColor;
 }
+
+
 
 @end
 
@@ -1631,10 +1641,10 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
     rootViewController.toastView = notificationView;
     self.statusBarView = statusBarView;
 
-    for (UIView *subview in _notificationWindow.rootViewController.view.subviews)
-    {
-        subview.userInteractionEnabled = NO;
-    }
+//    for (UIView *subview in _notificationWindow.rootViewController.view.subviews)
+//    {
+//        subview.userInteractionEnabled = NO;
+//    }
 
     _notificationWindow.rootViewController.view.userInteractionEnabled = YES;
     _notificationWindow.rootViewController.view.gestureRecognizers = notification.gestureRecognizers;
