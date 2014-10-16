@@ -7,8 +7,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CRToast.h"
 
-NSString *NSStringFromCRToastInteractionType(CRToastInteractionType interactionType) {
-    switch (interactionType) {
+NSString *NSStringFromCRToastInteractionType(CRToastInteractionType interactionType)
+{
+    switch (interactionType)
+    {
         case CRToastInteractionTypeSwipeUp:
             return @"Swipe Up";
         case CRToastInteractionTypeSwipeLeft:
@@ -33,12 +35,12 @@ NSString *NSStringFromCRToastInteractionType(CRToastInteractionType interactionT
     return nil;
 }
 
-typedef void (^CRToastInteractionResponderBlock) (CRToastInteractionType interactionType);
+typedef void (^CRToastInteractionResponderBlock)(CRToastInteractionType interactionType);
 
 @interface CRToastSwipeGestureRecognizer : UISwipeGestureRecognizer
-@property (nonatomic, assign) BOOL automaticallyDismiss;
-@property (nonatomic, assign) CRToastInteractionType interactionType;
-@property (nonatomic, copy) CRToastInteractionResponderBlock block;
+@property(nonatomic, assign) BOOL automaticallyDismiss;
+@property(nonatomic, assign) CRToastInteractionType interactionType;
+@property(nonatomic, copy) CRToastInteractionResponderBlock block;
 @end
 
 @implementation CRToastSwipeGestureRecognizer
@@ -46,9 +48,9 @@ typedef void (^CRToastInteractionResponderBlock) (CRToastInteractionType interac
 @end
 
 @interface CRToastTapGestureRecognizer : UITapGestureRecognizer
-@property (nonatomic, assign) BOOL automaticallyDismiss;
-@property (nonatomic, assign) CRToastInteractionType interactionType;
-@property (nonatomic, copy) CRToastInteractionResponderBlock block;
+@property(nonatomic, assign) BOOL automaticallyDismiss;
+@property(nonatomic, assign) CRToastInteractionType interactionType;
+@property(nonatomic, copy) CRToastInteractionResponderBlock block;
 @end
 
 @implementation CRToastTapGestureRecognizer
@@ -56,16 +58,17 @@ typedef void (^CRToastInteractionResponderBlock) (CRToastInteractionType interac
 @end
 
 @interface CRToastInteractionResponder ()
-@property (nonatomic, assign) CRToastInteractionType interactionType;
-@property (nonatomic, assign) BOOL automaticallyDismiss;
-@property (nonatomic, copy) CRToastInteractionResponderBlock block;
+@property(nonatomic, assign) CRToastInteractionType interactionType;
+@property(nonatomic, assign) BOOL automaticallyDismiss;
+@property(nonatomic, copy) CRToastInteractionResponderBlock block;
 @end
 
 @implementation CRToastInteractionResponder
 
 + (instancetype)interactionResponderWithInteractionType:(CRToastInteractionType)interactionType
                                    automaticallyDismiss:(BOOL)automaticallyDismiss
-                                                  block:(CRToastInteractionResponderBlock)block {
+                                                  block:(CRToastInteractionResponderBlock)block
+{
     CRToastInteractionResponder *responder = [[self alloc] init];
     responder.interactionType = interactionType;
     responder.automaticallyDismiss = automaticallyDismiss;
@@ -74,7 +77,8 @@ typedef void (^CRToastInteractionResponderBlock) (CRToastInteractionType interac
 }
 @end
 
-typedef NS_ENUM(NSInteger, CRToastState) {
+typedef NS_ENUM(NSInteger, CRToastState)
+{
     CRToastStateWaiting,
     CRToastStateEntering,
     CRToastStateDisplaying,
@@ -93,177 +97,179 @@ typedef NS_ENUM(NSInteger, CRToastState) {
 
 @interface CRToast : NSObject <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NSUUID *uuid;
-@property (nonatomic, assign) CRToastState state;
+@property(nonatomic, strong) NSUUID *uuid;
+@property(nonatomic, assign) CRToastState state;
 
 //Top Level Properties
 
-@property (nonatomic, strong) NSDictionary *options;
-@property (nonatomic, copy) void(^completion)(void);
-@property (nonatomic, copy) void(^appearance)(void);
+@property(nonatomic, strong) NSDictionary *options;
+@property(nonatomic, copy) void(^completion)(void);
+@property(nonatomic, copy) void(^appearance)(void);
 
 //Interactions
 
-@property (nonatomic, strong) NSArray *gestureRecognizers;
+@property(nonatomic, strong) NSArray *gestureRecognizers;
 
 //Autorotate
 
-@property (nonatomic, assign) BOOL autorotate;
+@property(nonatomic, assign) BOOL autorotate;
 
 //Views and Layout Data
 
-@property (nonatomic, readonly) UIView *notificationView;
-@property (nonatomic, readonly) CGRect notificationViewAnimationFrame1;
-@property (nonatomic, readonly) CGRect notificationViewAnimationFrame2;
-@property (nonatomic, readonly) UIView *statusBarView;
-@property (nonatomic, readonly) CGRect statusBarViewAnimationFrame1;
-@property (nonatomic, readonly) CGRect statusBarViewAnimationFrame2;
-@property (nonatomic, retain) UIDynamicAnimator *animator;
+@property(nonatomic, readonly) UIView *notificationView;
+@property(nonatomic, readonly) CGRect notificationViewAnimationFrame1;
+@property(nonatomic, readonly) CGRect notificationViewAnimationFrame2;
+@property(nonatomic, readonly) UIView *statusBarView;
+@property(nonatomic, readonly) CGRect statusBarViewAnimationFrame1;
+@property(nonatomic, readonly) CGRect statusBarViewAnimationFrame2;
+@property(nonatomic, retain) UIDynamicAnimator *animator;
 
 //Read Only Convinence Properties Providing Default Values or Values from Options
 
-@property (nonatomic, readonly) CRToastType notificationType;
-@property (nonatomic, assign) CGFloat preferredHeight;
-@property (nonatomic, readonly) CRToastPresentationType presentationType;
-@property (nonatomic, readonly) BOOL displayUnderStatusBar;
+@property(nonatomic, readonly) CRToastType notificationType;
+@property(nonatomic, assign) CGFloat preferredHeight;
+@property(nonatomic, readonly) CRToastPresentationType presentationType;
+@property(nonatomic, readonly) BOOL displayUnderStatusBar;
 
-@property (nonatomic, readonly) CRToastAnimationType inAnimationType;
-@property (nonatomic, readonly) CRToastAnimationType outAnimationType;
-@property (nonatomic, readonly) CRToastAnimationDirection inAnimationDirection;
-@property (nonatomic, readonly) CRToastAnimationDirection outAnimationDirection;
-@property (nonatomic, readonly) NSTimeInterval animateInTimeInterval;
-@property (nonatomic, readonly) NSTimeInterval timeInterval;
-@property (nonatomic, readonly) NSTimeInterval animateOutTimeInterval;
+@property(nonatomic, readonly) CRToastAnimationType inAnimationType;
+@property(nonatomic, readonly) CRToastAnimationType outAnimationType;
+@property(nonatomic, readonly) CRToastAnimationDirection inAnimationDirection;
+@property(nonatomic, readonly) CRToastAnimationDirection outAnimationDirection;
+@property(nonatomic, readonly) NSTimeInterval animateInTimeInterval;
+@property(nonatomic, readonly) NSTimeInterval timeInterval;
+@property(nonatomic, readonly) NSTimeInterval animateOutTimeInterval;
 
-@property (nonatomic, readonly) CGFloat animationSpringDamping;
-@property (nonatomic, readonly) CGFloat animationSpringInitialVelocity;
-@property (nonatomic, readonly) CGFloat animationGravityMagnitude;
+@property(nonatomic, readonly) CGFloat animationSpringDamping;
+@property(nonatomic, readonly) CGFloat animationSpringInitialVelocity;
+@property(nonatomic, readonly) CGFloat animationGravityMagnitude;
 
-@property (nonatomic, readonly) NSString *text;
-@property (nonatomic, readonly) UIFont *font;
-@property (nonatomic, readonly) UIColor *textColor;
-@property (nonatomic, readonly) NSTextAlignment textAlignment;
-@property (nonatomic, readonly) UIColor *textShadowColor;
-@property (nonatomic, readonly) CGSize textShadowOffset;
-@property (nonatomic, readonly) NSInteger textMaxNumberOfLines;
+@property(nonatomic, readonly) NSString *text;
+@property(nonatomic, readonly) UIFont *font;
+@property(nonatomic, readonly) UIColor *textColor;
+@property(nonatomic, readonly) NSTextAlignment textAlignment;
+@property(nonatomic, readonly) UIColor *textShadowColor;
+@property(nonatomic, readonly) CGSize textShadowOffset;
+@property(nonatomic, readonly) NSInteger textMaxNumberOfLines;
 
-@property (nonatomic, readonly) NSString *subtitleText;
-@property (nonatomic, readonly) UIFont *subtitleFont;
-@property (nonatomic, readonly) UIColor *subtitleTextColor;
-@property (nonatomic, readonly) NSTextAlignment subtitleTextAlignment;
-@property (nonatomic, readonly) UIColor *subtitleTextShadowColor;
-@property (nonatomic, readonly) CGSize subtitleTextShadowOffset;
-@property (nonatomic, readonly) NSInteger subtitleTextMaxNumberOfLines;
-@property (nonatomic, readonly) UIStatusBarStyle statusBarStyle;
-@property (nonatomic, readonly) UIColor *backgroundColor;
-@property (nonatomic, readonly) UIImage *image;
+@property(nonatomic, readonly) NSString *subtitleText;
+@property(nonatomic, readonly) UIFont *subtitleFont;
+@property(nonatomic, readonly) UIColor *subtitleTextColor;
+@property(nonatomic, readonly) NSTextAlignment subtitleTextAlignment;
+@property(nonatomic, readonly) UIColor *subtitleTextShadowColor;
+@property(nonatomic, readonly) CGSize subtitleTextShadowOffset;
+@property(nonatomic, readonly) NSInteger subtitleTextMaxNumberOfLines;
+@property(nonatomic, readonly) UIStatusBarStyle statusBarStyle;
+@property(nonatomic, readonly) UIColor *backgroundColor;
+@property(nonatomic, readonly) UIImage *image;
 
-@property (nonatomic, readonly) CGVector inGravityDirection;
-@property (nonatomic, readonly) CGVector outGravityDirection;
+@property(nonatomic, readonly) CGVector inGravityDirection;
+@property(nonatomic, readonly) CGVector outGravityDirection;
 
-@property (nonatomic, readonly) CGPoint inCollisionPoint1;
-@property (nonatomic, readonly) CGPoint inCollisionPoint2;
-@property (nonatomic, readonly) CGPoint outCollisionPoint1;
-@property (nonatomic, readonly) CGPoint outCollisionPoint2;
+@property(nonatomic, readonly) CGPoint inCollisionPoint1;
+@property(nonatomic, readonly) CGPoint inCollisionPoint2;
+@property(nonatomic, readonly) CGPoint outCollisionPoint1;
+@property(nonatomic, readonly) CGPoint outCollisionPoint2;
 
-- (void)swipeGestureRecognizerSwiped:(CRToastSwipeGestureRecognizer*)swipeGestureRecognizer;
-- (void)tapGestureRecognizerTapped:(CRToastTapGestureRecognizer*)tapGestureRecognizer;
+- (void)swipeGestureRecognizerSwiped:(CRToastSwipeGestureRecognizer *)swipeGestureRecognizer;
+
+- (void)tapGestureRecognizerTapped:(CRToastTapGestureRecognizer *)tapGestureRecognizer;
+
 - (void)initiateAnimator:(UIView *)view;
 @end
 
 @interface CRToastView : UIView
-@property (nonatomic, strong) CRToast *toast;
+@property(nonatomic, strong) CRToast *toast;
 @end
 
 #pragma mark - Option Constant Definitions
 
-NSString *const kCRToastNotificationTypeKey                 = @"kCRToastNotificationTypeKey";
-NSString *const kCRToastNotificationPreferredHeightKey      = @"kCRToastNotificationPreferredHeightKey";
-NSString *const kCRToastNotificationPresentationTypeKey     = @"kCRToastNotificationPresentationTypeKey";
+NSString *const kCRToastNotificationTypeKey = @"kCRToastNotificationTypeKey";
+NSString *const kCRToastNotificationPreferredHeightKey = @"kCRToastNotificationPreferredHeightKey";
+NSString *const kCRToastNotificationPresentationTypeKey = @"kCRToastNotificationPresentationTypeKey";
 
-NSString *const kCRToastUnderStatusBarKey                   = @"kCRToastUnderStatusBarKey";
+NSString *const kCRToastUnderStatusBarKey = @"kCRToastUnderStatusBarKey";
 
-NSString *const kCRToastAnimationInTypeKey                  = @"kCRToastAnimationInTypeKey";
-NSString *const kCRToastAnimationOutTypeKey                 = @"kCRToastAnimationOutTypeKey";
-NSString *const kCRToastAnimationInDirectionKey             = @"kCRToastAnimationInDirectionKey";
-NSString *const kCRToastAnimationOutDirectionKey            = @"kCRToastAnimationOutDirectionKey";
+NSString *const kCRToastAnimationInTypeKey = @"kCRToastAnimationInTypeKey";
+NSString *const kCRToastAnimationOutTypeKey = @"kCRToastAnimationOutTypeKey";
+NSString *const kCRToastAnimationInDirectionKey = @"kCRToastAnimationInDirectionKey";
+NSString *const kCRToastAnimationOutDirectionKey = @"kCRToastAnimationOutDirectionKey";
 
-NSString *const kCRToastAnimationInTimeIntervalKey          = @"kCRToastAnimateInTimeInterval";
-NSString *const kCRToastTimeIntervalKey                     = @"kCRToastTimeIntervalKey";
-NSString *const kCRToastAnimationOutTimeIntervalKey         = @"kCRToastAnimateOutTimeInterval";
+NSString *const kCRToastAnimationInTimeIntervalKey = @"kCRToastAnimateInTimeInterval";
+NSString *const kCRToastTimeIntervalKey = @"kCRToastTimeIntervalKey";
+NSString *const kCRToastAnimationOutTimeIntervalKey = @"kCRToastAnimateOutTimeInterval";
 
-NSString *const kCRToastAnimationSpringDampingKey           = @"kCRToastAnimationSpringDampingKey";
-NSString *const kCRToastAnimationSpringInitialVelocityKey   = @"kCRToastAnimateSpringVelocityKey";
-NSString *const kCRToastAnimationGravityMagnitudeKey        = @"kCRToastAnimationGravityMagnitudeKey";
+NSString *const kCRToastAnimationSpringDampingKey = @"kCRToastAnimationSpringDampingKey";
+NSString *const kCRToastAnimationSpringInitialVelocityKey = @"kCRToastAnimateSpringVelocityKey";
+NSString *const kCRToastAnimationGravityMagnitudeKey = @"kCRToastAnimationGravityMagnitudeKey";
 
-NSString *const kCRToastTextKey                             = @"kCRToastTextKey";
-NSString *const kCRToastFontKey                             = @"kCRToastFontKey";
-NSString *const kCRToastTextColorKey                        = @"kCRToastTextColorKey";
-NSString *const kCRToastTextAlignmentKey                    = @"kCRToastTextAlignmentKey";
-NSString *const kCRToastTextShadowColorKey                  = @"kCRToastTextShadowColorKey";
-NSString *const kCRToastTextShadowOffsetKey                 = @"kCRToastTextShadowOffsetKey";
-NSString *const kCRToastTextMaxNumberOfLinesKey             = @"kCRToastTextMaxNumberOfLinesKey";
+NSString *const kCRToastTextKey = @"kCRToastTextKey";
+NSString *const kCRToastFontKey = @"kCRToastFontKey";
+NSString *const kCRToastTextColorKey = @"kCRToastTextColorKey";
+NSString *const kCRToastTextAlignmentKey = @"kCRToastTextAlignmentKey";
+NSString *const kCRToastTextShadowColorKey = @"kCRToastTextShadowColorKey";
+NSString *const kCRToastTextShadowOffsetKey = @"kCRToastTextShadowOffsetKey";
+NSString *const kCRToastTextMaxNumberOfLinesKey = @"kCRToastTextMaxNumberOfLinesKey";
 
-NSString *const kCRToastSubtitleTextKey                     = @"kCRToastSubtitleTextKey";
-NSString *const kCRToastSubtitleFontKey                     = @"kCRToastSubtitleFontKey";
-NSString *const kCRToastSubtitleTextColorKey                = @"kCRToastSubtitleTextColorKey";
-NSString *const kCRToastSubtitleTextAlignmentKey            = @"kCRToastSubtitleTextAlignmentKey";
-NSString *const kCRToastSubtitleTextShadowColorKey          = @"kCRToastSubtitleTextShadowColorKey";
-NSString *const kCRToastSubtitleTextShadowOffsetKey         = @"kCRToastSubtitleTextShadowOffsetKey";
-NSString *const kCRToastSubtitleTextMaxNumberOfLinesKey     = @"kCRToastSubtitleTextMaxNumberOfLinesKey";
-NSString *const kCRToastStatusBarStyleKey                   = @"kCRToastStatusBarStyleKey";
+NSString *const kCRToastSubtitleTextKey = @"kCRToastSubtitleTextKey";
+NSString *const kCRToastSubtitleFontKey = @"kCRToastSubtitleFontKey";
+NSString *const kCRToastSubtitleTextColorKey = @"kCRToastSubtitleTextColorKey";
+NSString *const kCRToastSubtitleTextAlignmentKey = @"kCRToastSubtitleTextAlignmentKey";
+NSString *const kCRToastSubtitleTextShadowColorKey = @"kCRToastSubtitleTextShadowColorKey";
+NSString *const kCRToastSubtitleTextShadowOffsetKey = @"kCRToastSubtitleTextShadowOffsetKey";
+NSString *const kCRToastSubtitleTextMaxNumberOfLinesKey = @"kCRToastSubtitleTextMaxNumberOfLinesKey";
+NSString *const kCRToastStatusBarStyleKey = @"kCRToastStatusBarStyleKey";
 
-NSString *const kCRToastBackgroundColorKey                  = @"kCRToastBackgroundColorKey";
-NSString *const kCRToastImageKey                            = @"kCRToastImageKey";
+NSString *const kCRToastBackgroundColorKey = @"kCRToastBackgroundColorKey";
+NSString *const kCRToastImageKey = @"kCRToastImageKey";
 
-NSString *const kCRToastInteractionRespondersKey            = @"kCRToastInteractionRespondersKey";
+NSString *const kCRToastInteractionRespondersKey = @"kCRToastInteractionRespondersKey";
 
-NSString *const kCRToastAutorotateKey                       = @"kCRToastAutorotateKey";
+NSString *const kCRToastAutorotateKey = @"kCRToastAutorotateKey";
 
 #pragma mark - Option Defaults
 
-static CRToastType                  kCRNotificationTypeDefault              = CRToastTypeStatusBar;
-static CGFloat                      kCRNotificationPreferredHeightDefault   = 0;
-static CRToastPresentationType      kCRNotificationPresentationTypeDefault  = CRToastPresentationTypePush;
-static BOOL                         kCRDisplayUnderStatusBarDefault         = NO;
+static CRToastType kCRNotificationTypeDefault = CRToastTypeStatusBar;
+static CGFloat kCRNotificationPreferredHeightDefault = 0;
+static CRToastPresentationType kCRNotificationPresentationTypeDefault = CRToastPresentationTypePush;
+static BOOL kCRDisplayUnderStatusBarDefault = NO;
 
-static CRToastAnimationType         kCRAnimationTypeDefaultIn               = CRToastAnimationTypeLinear;
-static CRToastAnimationType         kCRAnimationTypeDefaultOut              = CRToastAnimationTypeLinear;
-static CRToastAnimationDirection    kCRInAnimationDirectionDefault          = CRToastAnimationDirectionTop;
-static CRToastAnimationDirection    kCROutAnimationDirectionDefault         = CRToastAnimationDirectionBottom;
-static NSTimeInterval               kCRAnimateInTimeIntervalDefault         = 0.4;
-static NSTimeInterval               kCRTimeIntervalDefault                  = 2.0f;
-static NSTimeInterval               kCRAnimateOutTimeIntervalDefault        = 0.4;
+static CRToastAnimationType kCRAnimationTypeDefaultIn = CRToastAnimationTypeLinear;
+static CRToastAnimationType kCRAnimationTypeDefaultOut = CRToastAnimationTypeLinear;
+static CRToastAnimationDirection kCRInAnimationDirectionDefault = CRToastAnimationDirectionTop;
+static CRToastAnimationDirection kCROutAnimationDirectionDefault = CRToastAnimationDirectionBottom;
+static NSTimeInterval kCRAnimateInTimeIntervalDefault = 0.4;
+static NSTimeInterval kCRTimeIntervalDefault = 2.0f;
+static NSTimeInterval kCRAnimateOutTimeIntervalDefault = 0.4;
 
-static CGFloat                      kCRSpringDampingDefault                 = 0.6;
-static CGFloat                  	kCRSpringInitialVelocityDefault         = 1.0;
-static CGFloat                      kCRGravityMagnitudeDefault              = 1.0;
+static CGFloat kCRSpringDampingDefault = 0.6;
+static CGFloat kCRSpringInitialVelocityDefault = 1.0;
+static CGFloat kCRGravityMagnitudeDefault = 1.0;
 
-static NSString *                   kCRTextDefault                          = @"";
-static UIFont   *                   kCRFontDefault                          = nil;
-static UIColor  *               	kCRTextColorDefault                     = nil;
-static NSTextAlignment          	kCRTextAlignmentDefault                 = NSTextAlignmentCenter;
-static UIColor  *               	kCRTextShadowColorDefault               = nil;
-static CGSize                   	kCRTextShadowOffsetDefault;
-static NSInteger                    kCRTextMaxNumberOfLinesDefault          = 0;
+static NSString *kCRTextDefault = @"";
+static UIFont *kCRFontDefault = nil;
+static UIColor *kCRTextColorDefault = nil;
+static NSTextAlignment kCRTextAlignmentDefault = NSTextAlignmentCenter;
+static UIColor *kCRTextShadowColorDefault = nil;
+static CGSize kCRTextShadowOffsetDefault;
+static NSInteger kCRTextMaxNumberOfLinesDefault = 0;
 
-static NSString *                   kCRSubtitleTextDefault                  = nil;
-static UIFont   *                   kCRSubtitleFontDefault                  = nil;
-static UIColor  *               	kCRSubtitleTextColorDefault             = nil;
-static NSTextAlignment          	kCRSubtitleTextAlignmentDefault         = NSTextAlignmentCenter;
-static UIColor  *               	kCRSubtitleTextShadowColorDefault       = nil;
-static CGSize                   	kCRSubtitleTextShadowOffsetDefault;
-static NSInteger                    kCRSubtitleTextMaxNumberOfLinesDefault  = 0;
-static UIStatusBarStyle             kCRStatusBarStyleDefault                = UIStatusBarStyleDefault;
+static NSString *kCRSubtitleTextDefault = nil;
+static UIFont *kCRSubtitleFontDefault = nil;
+static UIColor *kCRSubtitleTextColorDefault = nil;
+static NSTextAlignment kCRSubtitleTextAlignmentDefault = NSTextAlignmentCenter;
+static UIColor *kCRSubtitleTextShadowColorDefault = nil;
+static CGSize kCRSubtitleTextShadowOffsetDefault;
+static NSInteger kCRSubtitleTextMaxNumberOfLinesDefault = 0;
+static UIStatusBarStyle kCRStatusBarStyleDefault = UIStatusBarStyleDefault;
 
-static UIColor  *                   kCRBackgroundColorDefault               = nil;
-static UIImage  *                   kCRImageDefault                         = nil;
+static UIColor *kCRBackgroundColorDefault = nil;
+static UIImage *kCRImageDefault = nil;
 
-static NSArray  *                   kCRInteractionResponders                = nil;
+static NSArray *kCRInteractionResponders = nil;
 
-static BOOL                         kCRAutoRotateDefault                    = YES;
+static BOOL kCRAutoRotateDefault = YES;
 
-static NSDictionary *               kCRToastKeyClassMap                     = nil;
+static NSDictionary *kCRToastKeyClassMap = nil;
 
 #pragma mark - Layout Helper Functions
 
@@ -272,51 +278,61 @@ static BOOL kCRFrameAutoAdjustedForOrientation = NO;
 static CGFloat const CRNavigationBarDefaultHeight = 45.0f;
 static CGFloat const CRNavigationBarDefaultHeightiPhoneLandscape = 33.0f;
 
-static UIInterfaceOrientation CRGetDeviceOrientation() {
+static UIInterfaceOrientation CRGetDeviceOrientation()
+{
     return [UIApplication sharedApplication].statusBarOrientation;
 }
 
-static CGFloat CRGetStatusBarHeightForOrientation(UIInterfaceOrientation orientation) {
-	CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-	
-	if (kCRFrameAutoAdjustedForOrientation) {
-		return CGRectGetHeight(statusBarFrame);
-	}
-	
+static CGFloat CRGetStatusBarHeightForOrientation(UIInterfaceOrientation orientation)
+{
+    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+
+    if (kCRFrameAutoAdjustedForOrientation)
+    {
+        return CGRectGetHeight(statusBarFrame);
+    }
+
     return (UIDeviceOrientationIsLandscape(orientation)) ?
-    CGRectGetWidth(statusBarFrame) :
-    CGRectGetHeight(statusBarFrame);
+            CGRectGetWidth(statusBarFrame) :
+            CGRectGetHeight(statusBarFrame);
 }
 
-static CGFloat CRGetStatusBarHeight() {
+static CGFloat CRGetStatusBarHeight()
+{
     return CRGetStatusBarHeightForOrientation(CRGetDeviceOrientation());
 }
 
-static CGFloat CRGetStatusBarWidthForOrientation(UIInterfaceOrientation orientation) {
-	CGRect mainScreenBounds = [UIScreen mainScreen].bounds;
-	
-	if (kCRFrameAutoAdjustedForOrientation) {
-		return CGRectGetWidth(mainScreenBounds);
-	}
-	
+static CGFloat CRGetStatusBarWidthForOrientation(UIInterfaceOrientation orientation)
+{
+    CGRect mainScreenBounds = [UIScreen mainScreen].bounds;
+
+    if (kCRFrameAutoAdjustedForOrientation)
+    {
+        return CGRectGetWidth(mainScreenBounds);
+    }
+
     return (UIDeviceOrientationIsPortrait(orientation)) ?
-	CGRectGetWidth(mainScreenBounds) :
-	CGRectGetHeight(mainScreenBounds);
+            CGRectGetWidth(mainScreenBounds) :
+            CGRectGetHeight(mainScreenBounds);
 }
 
-static CGFloat CRGetStatusBarWidth() {
+static CGFloat CRGetStatusBarWidth()
+{
     return CRGetStatusBarWidthForOrientation(CRGetDeviceOrientation());
 }
 
-static CGFloat CRGetNavigationBarHeightForOrientation(UIInterfaceOrientation orientation) {
+static CGFloat CRGetNavigationBarHeightForOrientation(UIInterfaceOrientation orientation)
+{
     return (UIDeviceOrientationIsPortrait(orientation) ||
             UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
-    CRNavigationBarDefaultHeight :
-    CRNavigationBarDefaultHeightiPhoneLandscape;
+            CRNavigationBarDefaultHeight :
+            CRNavigationBarDefaultHeightiPhoneLandscape;
 }
 
-static CGFloat CRGetNotificationViewHeightForOrientation(CRToastType type, CGFloat preferredNotificationHeight, UIInterfaceOrientation orientation) {
-    switch (type) {
+static CGFloat CRGetNotificationViewHeightForOrientation(CRToastType type, CGFloat preferredNotificationHeight, UIInterfaceOrientation orientation)
+{
+    switch (type)
+    {
         case CRToastTypeStatusBar:
             return CRGetStatusBarHeightForOrientation(orientation);
         case CRToastTypeNavigationBar:
@@ -326,65 +342,79 @@ static CGFloat CRGetNotificationViewHeightForOrientation(CRToastType type, CGFlo
     }
 }
 
-static CGFloat CRGetNotificationViewHeight(CRToastType type, CGFloat preferredNotificationHeight) {
+static CGFloat CRGetNotificationViewHeight(CRToastType type, CGFloat preferredNotificationHeight)
+{
     return CRGetNotificationViewHeightForOrientation(type, preferredNotificationHeight, CRGetDeviceOrientation());
 }
 
-static CGSize CRNotificationViewSizeForOrientation(CRToastType notificationType, CGFloat preferredNotificationHeight, UIInterfaceOrientation orientation) {
+static CGSize CRNotificationViewSizeForOrientation(CRToastType notificationType, CGFloat preferredNotificationHeight, UIInterfaceOrientation orientation)
+{
     return CGSizeMake(CRGetStatusBarWidthForOrientation(orientation), CRGetNotificationViewHeightForOrientation(notificationType, preferredNotificationHeight, orientation));
 }
 
-static CGSize CRNotificationViewSize(CRToastType notificationType, CGFloat preferredNotificationHeight) {
+static CGSize CRNotificationViewSize(CRToastType notificationType, CGFloat preferredNotificationHeight)
+{
     return CGSizeMake(CRGetStatusBarWidth(), CRGetNotificationViewHeight(notificationType, preferredNotificationHeight));
 }
 
-static CGRect CRNotificationViewFrame(CRToastType type, CRToastAnimationDirection direction, CGFloat preferredNotificationHeight) {
+static CGRect CRNotificationViewFrame(CRToastType type, CRToastAnimationDirection direction, CGFloat preferredNotificationHeight)
+{
     return CGRectMake(direction == CRToastAnimationDirectionLeft ? -CRGetStatusBarWidth() : direction == CRToastAnimationDirectionRight ? CRGetStatusBarWidth() : 0,
-                      direction == CRToastAnimationDirectionTop ? -CRGetNotificationViewHeight(type, preferredNotificationHeight) : direction == CRToastAnimationDirectionBottom ? CRGetNotificationViewHeight(type, preferredNotificationHeight) : 0,
-                      CRGetStatusBarWidth(),
-                      CRGetNotificationViewHeight(type, preferredNotificationHeight));
+            direction == CRToastAnimationDirectionTop ? -CRGetNotificationViewHeight(type, preferredNotificationHeight) : direction == CRToastAnimationDirectionBottom ? CRGetNotificationViewHeight(type, preferredNotificationHeight) : 0,
+            CRGetStatusBarWidth(),
+            CRGetNotificationViewHeight(type, preferredNotificationHeight));
 }
 
-static CGRect CRStatusBarViewFrame(CRToastType type, CRToastAnimationDirection direction, CGFloat preferredNotificationHeight) {
+static CGRect CRStatusBarViewFrame(CRToastType type, CRToastAnimationDirection direction, CGFloat preferredNotificationHeight)
+{
     return CRNotificationViewFrame(type,
-                                   direction == CRToastAnimationDirectionTop ? CRToastAnimationDirectionBottom :
-                                   direction == CRToastAnimationDirectionBottom ? CRToastAnimationDirectionTop :
-                                   direction == CRToastAnimationDirectionLeft ? CRToastAnimationDirectionRight :
-                                   CRToastAnimationDirectionLeft,
-                                   preferredNotificationHeight);
+            direction == CRToastAnimationDirectionTop ? CRToastAnimationDirectionBottom :
+                    direction == CRToastAnimationDirectionBottom ? CRToastAnimationDirectionTop :
+                            direction == CRToastAnimationDirectionLeft ? CRToastAnimationDirectionRight :
+                                    CRToastAnimationDirectionLeft,
+            preferredNotificationHeight);
 }
 
-static UIView *CRStatusBarSnapShotView(BOOL underStatusBar) {
+static UIView *CRStatusBarSnapShotView(BOOL underStatusBar)
+{
     return underStatusBar ?
-    [[UIApplication sharedApplication].keyWindow.rootViewController.view snapshotViewAfterScreenUpdates:YES] :
-    [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:YES];
+            [[UIApplication sharedApplication].keyWindow.rootViewController.view snapshotViewAfterScreenUpdates:YES] :
+            [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:YES];
 }
 
 #pragma mark - Interaction Setup Helpers
 
-BOOL CRToastInteractionResponderIsGenertic(CRToastInteractionType interactionType) {
+BOOL CRToastInteractionResponderIsGenertic(CRToastInteractionType interactionType)
+{
     return (interactionType == CRToastInteractionTypeSwipe ||
-            interactionType == CRToastInteractionTypeTap   ||
+            interactionType == CRToastInteractionTypeTap ||
             interactionType == CRToastInteractionTypeAll);
 }
 
-BOOL CRToastInteractionResponderIsSwipe(CRToastInteractionType interactionType) {
+BOOL CRToastInteractionResponderIsSwipe(CRToastInteractionType interactionType)
+{
     return CRToastInteractionTypeSwipe & interactionType;
 }
 
-BOOL CRToastInteractionResponderIsTap(interactionType) {
+BOOL CRToastInteractionResponderIsTap(interactionType)
+{
     return CRToastInteractionTypeTap & interactionType;
 }
 
-UIGestureRecognizer * CRToastSwipeGestureRecognizerMake(id target, SEL action, CRToastInteractionType interactionType, CRToastInteractionResponder *interactionResponder) {
+UIGestureRecognizer *CRToastSwipeGestureRecognizerMake(id target, SEL action, CRToastInteractionType interactionType, CRToastInteractionResponder *interactionResponder)
+{
     CRToastSwipeGestureRecognizer *swipeGestureRecognizer = [[CRToastSwipeGestureRecognizer alloc] initWithTarget:target action:action];
-    if (interactionType == CRToastInteractionTypeSwipeUp) {
+    if (interactionType == CRToastInteractionTypeSwipeUp)
+    {
         swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
-    } else if (interactionType == CRToastInteractionTypeSwipeLeft) {
+    } else if (interactionType == CRToastInteractionTypeSwipeLeft)
+    {
         swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    } else if (interactionType == CRToastInteractionTypeSwipeDown) {
+    } else if (interactionType == CRToastInteractionTypeSwipeDown)
+    {
         swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
-    } else if (interactionType == CRToastInteractionTypeSwipeRight) {
+    } else if (interactionType == CRToastInteractionTypeSwipeRight)
+    {
         swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     }
     swipeGestureRecognizer.automaticallyDismiss = interactionResponder.automaticallyDismiss;
@@ -393,7 +423,8 @@ UIGestureRecognizer * CRToastSwipeGestureRecognizerMake(id target, SEL action, C
     return swipeGestureRecognizer;
 }
 
-UIGestureRecognizer * CRToastTapGestureRecognizerMake(id target, SEL action, CRToastInteractionType interactionType, CRToastInteractionResponder *interactionResponder) {
+UIGestureRecognizer *CRToastTapGestureRecognizerMake(id target, SEL action, CRToastInteractionType interactionType, CRToastInteractionResponder *interactionResponder)
+{
     CRToastTapGestureRecognizer *tapGestureRecognizer = [[CRToastTapGestureRecognizer alloc] initWithTarget:target action:action];
     tapGestureRecognizer.numberOfTouchesRequired = (interactionType & (CRToastInteractionTypeTapOnce | CRToastInteractionTypeTapTwice)) ? 1 : 2;
     tapGestureRecognizer.numberOfTapsRequired = (interactionType & (CRToastInteractionTypeTapOnce | CRToastInteractionTypeTwoFingerTapOnce)) ? 1 : 2;
@@ -403,43 +434,54 @@ UIGestureRecognizer * CRToastTapGestureRecognizerMake(id target, SEL action, CRT
     return tapGestureRecognizer;
 }
 
-UIGestureRecognizer * CRToastGestureRecognizerMake(id target, CRToastInteractionResponder *interactionResponder) {
-    if (CRToastInteractionResponderIsSwipe(interactionResponder.interactionType)) {
+UIGestureRecognizer *CRToastGestureRecognizerMake(id target, CRToastInteractionResponder *interactionResponder)
+{
+    if (CRToastInteractionResponderIsSwipe(interactionResponder.interactionType))
+    {
         return CRToastSwipeGestureRecognizerMake(target, @selector(swipeGestureRecognizerSwiped:), interactionResponder.interactionType, interactionResponder);
-    } else if (CRToastInteractionResponderIsTap(interactionResponder.interactionType)) {
+    } else if (CRToastInteractionResponderIsTap(interactionResponder.interactionType))
+    {
         return CRToastTapGestureRecognizerMake(target, @selector(tapGestureRecognizerTapped:), interactionResponder.interactionType, interactionResponder);
     }
     return nil;
 }
 
-NSArray * CRToastGenericSwipeRecognizersMake(id target, SEL action, CRToastInteractionResponder *interactionResponder) {
+NSArray *CRToastGenericSwipeRecognizersMake(id target, SEL action, CRToastInteractionResponder *interactionResponder)
+{
     NSMutableArray *gestureRecognizers = [@[] mutableCopy];
     [@[@(CRToastInteractionTypeSwipeUp),
-       @(CRToastInteractionTypeSwipeLeft),
-       @(CRToastInteractionTypeSwipeDown),
-       @(CRToastInteractionTypeSwipeRight)] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-           [gestureRecognizers addObject:CRToastSwipeGestureRecognizerMake(target, action, [obj integerValue], interactionResponder)];
-       }];
+            @(CRToastInteractionTypeSwipeLeft),
+            @(CRToastInteractionTypeSwipeDown),
+            @(CRToastInteractionTypeSwipeRight)] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+    {
+        [gestureRecognizers addObject:CRToastSwipeGestureRecognizerMake(target, action, [obj integerValue], interactionResponder)];
+    }];
     return gestureRecognizers;
 }
 
-NSArray * CRToastGenericTapRecognizersMake(id target, SEL action, CRToastInteractionResponder *interactionResponder) {
+NSArray *CRToastGenericTapRecognizersMake(id target, SEL action, CRToastInteractionResponder *interactionResponder)
+{
     NSMutableArray *gestureRecognizers = [@[] mutableCopy];
     [@[@(CRToastInteractionTypeTapOnce),
-       @(CRToastInteractionTypeTapTwice),
-       @(CRToastInteractionTypeTwoFingerTapOnce),
-       @(CRToastInteractionTypeTwoFingerTapTwice)] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-           [gestureRecognizers addObject:CRToastTapGestureRecognizerMake(target, action, [obj integerValue], interactionResponder)];
-       }];
+            @(CRToastInteractionTypeTapTwice),
+            @(CRToastInteractionTypeTwoFingerTapOnce),
+            @(CRToastInteractionTypeTwoFingerTapTwice)] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+    {
+        [gestureRecognizers addObject:CRToastTapGestureRecognizerMake(target, action, [obj integerValue], interactionResponder)];
+    }];
     return gestureRecognizers;
 }
 
-NSArray * CRToastGenericRecognizersMake(id target, CRToastInteractionResponder *interactionResponder) {
-    if (interactionResponder.interactionType == CRToastInteractionTypeAll) {
+NSArray *CRToastGenericRecognizersMake(id target, CRToastInteractionResponder *interactionResponder)
+{
+    if (interactionResponder.interactionType == CRToastInteractionTypeAll)
+    {
         return [CRToastGenericTapRecognizersMake(target, @selector(swipeGestureRecognizerSwiped:), interactionResponder) arrayByAddingObjectsFromArray:CRToastGenericSwipeRecognizersMake(target, @selector(swipeGestureRecognizerSwiped:), interactionResponder)];
-    } else if (interactionResponder.interactionType == CRToastInteractionTypeSwipe) {
+    } else if (interactionResponder.interactionType == CRToastInteractionTypeSwipe)
+    {
         return CRToastGenericSwipeRecognizersMake(target, @selector(swipeGestureRecognizerSwiped:), interactionResponder);
-    } else if (interactionResponder.interactionType == CRToastInteractionTypeTap) {
+    } else if (interactionResponder.interactionType == CRToastInteractionTypeTap)
+    {
         return CRToastGenericTapRecognizersMake(target, @selector(swipeGestureRecognizerSwiped:), interactionResponder);
     }
     return nil;
@@ -447,12 +489,14 @@ NSArray * CRToastGenericRecognizersMake(id target, CRToastInteractionResponder *
 
 @implementation CRToast
 
-+ (void)initialize {
-    if (self == [CRToast class]) {
++ (void)initialize
+{
+    if (self == [CRToast class])
+    {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
-		kCRFrameAutoAdjustedForOrientation = (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1);
+        kCRFrameAutoAdjustedForOrientation = (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1);
 #endif
-		
+
         kCRFontDefault = [UIFont systemFontOfSize:12];
         kCRTextColorDefault = [UIColor whiteColor];
         kCRTextShadowOffsetDefault = CGSizeZero;
@@ -461,161 +505,180 @@ NSArray * CRToastGenericRecognizersMake(id target, CRToastInteractionResponder *
         kCRSubtitleTextShadowOffsetDefault = CGSizeZero;
         kCRBackgroundColorDefault = [[UIApplication sharedApplication] delegate].window.tintColor ?: [UIColor redColor];
         kCRInteractionResponders = @[];
-        
-        kCRToastKeyClassMap = @{kCRToastNotificationTypeKey                 : NSStringFromClass([@(kCRNotificationTypeDefault) class]),
-                                kCRToastNotificationPreferredHeightKey         : NSStringFromClass([@(kCRNotificationPreferredHeightDefault) class]),
-                                kCRToastNotificationPresentationTypeKey     : NSStringFromClass([@(kCRNotificationPresentationTypeDefault) class]),
-                                kCRToastUnderStatusBarKey                   : NSStringFromClass([@(kCRDisplayUnderStatusBarDefault) class]),
-                                kCRToastAnimationInTypeKey                  : NSStringFromClass([@(kCRAnimationTypeDefaultIn) class]),
-                                kCRToastAnimationOutTypeKey                 : NSStringFromClass([@(kCRAnimationTypeDefaultOut) class]),
-                                kCRToastAnimationInDirectionKey             : NSStringFromClass([@(kCRInAnimationDirectionDefault) class]),
-                                kCRToastAnimationOutDirectionKey            : NSStringFromClass([@(kCROutAnimationDirectionDefault) class]),
-                                kCRToastAnimationInTimeIntervalKey          : NSStringFromClass([@(kCRAnimateInTimeIntervalDefault) class]),
-                                kCRToastTimeIntervalKey                     : NSStringFromClass([@(kCRTimeIntervalDefault) class]),
-                                kCRToastAnimationOutTimeIntervalKey         : NSStringFromClass([@(kCRAnimateOutTimeIntervalDefault) class]),
-                                kCRToastAnimationSpringDampingKey           : NSStringFromClass([@(kCRSpringDampingDefault) class]),
-                                kCRToastAnimationSpringInitialVelocityKey   : NSStringFromClass([@(kCRSpringInitialVelocityDefault) class]),
-                                kCRToastAnimationGravityMagnitudeKey        : NSStringFromClass([@(kCRGravityMagnitudeDefault) class]),
-                                kCRToastTextKey                             : NSStringFromClass([NSString class]),
-                                kCRToastFontKey                             : NSStringFromClass([UIFont class]),
-                                kCRToastTextColorKey                        : NSStringFromClass([UIColor class]),
-                                kCRToastTextAlignmentKey                    : NSStringFromClass([@(kCRTextAlignmentDefault) class]),
-                                kCRToastTextShadowColorKey                  : NSStringFromClass([UIColor class]),
-                                kCRToastTextShadowOffsetKey                 : NSStringFromClass([[NSValue valueWithCGSize:kCRTextShadowOffsetDefault] class]),
-                                kCRToastTextMaxNumberOfLinesKey             : NSStringFromClass([@(kCRTextMaxNumberOfLinesDefault) class]),
-                                kCRToastSubtitleTextKey                     : NSStringFromClass([NSString class]),
-                                kCRToastSubtitleFontKey                     : NSStringFromClass([UIFont class]),
-                                kCRToastSubtitleTextColorKey                : NSStringFromClass([UIColor class]),
-                                kCRToastSubtitleTextAlignmentKey            : NSStringFromClass([@(kCRSubtitleTextAlignmentDefault) class]),
-                                kCRToastSubtitleTextShadowColorKey          : NSStringFromClass([UIColor class]),
-                                kCRToastSubtitleTextShadowOffsetKey         : NSStringFromClass([[NSValue valueWithCGSize:kCRSubtitleTextShadowOffsetDefault] class]),
-                                kCRToastSubtitleTextMaxNumberOfLinesKey     : NSStringFromClass([@(kCRSubtitleTextMaxNumberOfLinesDefault) class]),
-                                kCRToastStatusBarStyleKey                   : NSStringFromClass([@(kCRStatusBarStyleDefault) class]),
-                                kCRToastBackgroundColorKey                  : NSStringFromClass([UIColor class]),
-                                kCRToastImageKey                            : NSStringFromClass([UIImage class]),
-                                kCRToastInteractionRespondersKey            : NSStringFromClass([NSArray class]),
-                                kCRToastAutorotateKey                       : NSStringFromClass([@(kCRAutoRotateDefault) class])};
+
+        kCRToastKeyClassMap = @{kCRToastNotificationTypeKey : NSStringFromClass([@(kCRNotificationTypeDefault) class]),
+                kCRToastNotificationPreferredHeightKey : NSStringFromClass([@(kCRNotificationPreferredHeightDefault) class]),
+                kCRToastNotificationPresentationTypeKey : NSStringFromClass([@(kCRNotificationPresentationTypeDefault) class]),
+                kCRToastUnderStatusBarKey : NSStringFromClass([@(kCRDisplayUnderStatusBarDefault) class]),
+                kCRToastAnimationInTypeKey : NSStringFromClass([@(kCRAnimationTypeDefaultIn) class]),
+                kCRToastAnimationOutTypeKey : NSStringFromClass([@(kCRAnimationTypeDefaultOut) class]),
+                kCRToastAnimationInDirectionKey : NSStringFromClass([@(kCRInAnimationDirectionDefault) class]),
+                kCRToastAnimationOutDirectionKey : NSStringFromClass([@(kCROutAnimationDirectionDefault) class]),
+                kCRToastAnimationInTimeIntervalKey : NSStringFromClass([@(kCRAnimateInTimeIntervalDefault) class]),
+                kCRToastTimeIntervalKey : NSStringFromClass([@(kCRTimeIntervalDefault) class]),
+                kCRToastAnimationOutTimeIntervalKey : NSStringFromClass([@(kCRAnimateOutTimeIntervalDefault) class]),
+                kCRToastAnimationSpringDampingKey : NSStringFromClass([@(kCRSpringDampingDefault) class]),
+                kCRToastAnimationSpringInitialVelocityKey : NSStringFromClass([@(kCRSpringInitialVelocityDefault) class]),
+                kCRToastAnimationGravityMagnitudeKey : NSStringFromClass([@(kCRGravityMagnitudeDefault) class]),
+                kCRToastTextKey : NSStringFromClass([NSString class]),
+                kCRToastFontKey : NSStringFromClass([UIFont class]),
+                kCRToastTextColorKey : NSStringFromClass([UIColor class]),
+                kCRToastTextAlignmentKey : NSStringFromClass([@(kCRTextAlignmentDefault) class]),
+                kCRToastTextShadowColorKey : NSStringFromClass([UIColor class]),
+                kCRToastTextShadowOffsetKey : NSStringFromClass([[NSValue valueWithCGSize:kCRTextShadowOffsetDefault] class]),
+                kCRToastTextMaxNumberOfLinesKey : NSStringFromClass([@(kCRTextMaxNumberOfLinesDefault) class]),
+                kCRToastSubtitleTextKey : NSStringFromClass([NSString class]),
+                kCRToastSubtitleFontKey : NSStringFromClass([UIFont class]),
+                kCRToastSubtitleTextColorKey : NSStringFromClass([UIColor class]),
+                kCRToastSubtitleTextAlignmentKey : NSStringFromClass([@(kCRSubtitleTextAlignmentDefault) class]),
+                kCRToastSubtitleTextShadowColorKey : NSStringFromClass([UIColor class]),
+                kCRToastSubtitleTextShadowOffsetKey : NSStringFromClass([[NSValue valueWithCGSize:kCRSubtitleTextShadowOffsetDefault] class]),
+                kCRToastSubtitleTextMaxNumberOfLinesKey : NSStringFromClass([@(kCRSubtitleTextMaxNumberOfLinesDefault) class]),
+                kCRToastStatusBarStyleKey : NSStringFromClass([@(kCRStatusBarStyleDefault) class]),
+                kCRToastBackgroundColorKey : NSStringFromClass([UIColor class]),
+                kCRToastImageKey : NSStringFromClass([UIImage class]),
+                kCRToastInteractionRespondersKey : NSStringFromClass([NSArray class]),
+                kCRToastAutorotateKey : NSStringFromClass([@(kCRAutoRotateDefault) class])};
     }
 }
-+ (instancetype)notificationWithOptions:(NSDictionary*)options appearanceBlock:(void (^)(void))appearance completionBlock:(void (^)(void))completion {
+
++ (instancetype)notificationWithOptions:(NSDictionary *)options appearanceBlock:(void (^)(void))appearance completionBlock:(void (^)(void))completion
+{
     CRToast *notification = [[self alloc] init];
     notification.options = options;
     notification.completion = completion;
     notification.state = CRToastStateWaiting;
     notification.uuid = [NSUUID UUID];
     notification.appearance = appearance;
-	
+
     return notification;
 }
 
-+ (void)setDefaultOptions:(NSDictionary*)defaultOptions {
++ (void)setDefaultOptions:(NSDictionary *)defaultOptions
+{
     //TODO Validate Types of Default Options
-    if (defaultOptions[kCRToastNotificationTypeKey])                kCRNotificationTypeDefault              = [defaultOptions[kCRToastNotificationTypeKey] integerValue];
-    if (defaultOptions[kCRToastNotificationPreferredHeightKey])        kCRNotificationPreferredHeightDefault   = [defaultOptions[kCRToastNotificationPreferredHeightKey] floatValue];
-    if (defaultOptions[kCRToastNotificationPresentationTypeKey])    kCRNotificationPresentationTypeDefault  = [defaultOptions[kCRToastNotificationPresentationTypeKey] integerValue];
-    
-    if (defaultOptions[kCRToastUnderStatusBarKey])                  kCRDisplayUnderStatusBarDefault         = [defaultOptions[kCRToastUnderStatusBarKey] boolValue];
-    
-    if (defaultOptions[kCRToastAnimationInTypeKey])                 kCRAnimationTypeDefaultIn               = [defaultOptions[kCRToastAnimationInTypeKey] integerValue];
-    if (defaultOptions[kCRToastAnimationOutTypeKey])                kCRAnimationTypeDefaultOut              = [defaultOptions[kCRToastAnimationOutTypeKey] integerValue];
-    if (defaultOptions[kCRToastAnimationInDirectionKey])            kCRInAnimationDirectionDefault          = [defaultOptions[kCRToastAnimationInDirectionKey] integerValue];
-    if (defaultOptions[kCRToastAnimationOutDirectionKey])           kCROutAnimationDirectionDefault         = [defaultOptions[kCRToastAnimationOutDirectionKey] integerValue];
-    
-    if (defaultOptions[kCRToastAnimationInTimeIntervalKey])         kCRAnimateInTimeIntervalDefault         = [defaultOptions[kCRToastAnimationInTimeIntervalKey] doubleValue];
-    if (defaultOptions[kCRToastTimeIntervalKey])                    kCRTimeIntervalDefault                  = [defaultOptions[kCRToastTimeIntervalKey] doubleValue];
-    if (defaultOptions[kCRToastAnimationOutTimeIntervalKey])        kCRAnimateOutTimeIntervalDefault        = [defaultOptions[kCRToastAnimationOutTimeIntervalKey] doubleValue];
-    
-    if (defaultOptions[kCRToastAnimationSpringDampingKey])          kCRSpringDampingDefault                 = [defaultOptions[kCRToastAnimationSpringDampingKey] floatValue];
-    if (defaultOptions[kCRToastAnimationSpringInitialVelocityKey])  kCRSpringInitialVelocityDefault         = [defaultOptions[kCRToastAnimationSpringInitialVelocityKey] floatValue];
-    if (defaultOptions[kCRToastAnimationGravityMagnitudeKey])       kCRGravityMagnitudeDefault              = [defaultOptions[kCRToastAnimationGravityMagnitudeKey] floatValue];
-    
-    if (defaultOptions[kCRToastTextKey])                            kCRTextDefault                          = defaultOptions[kCRToastTextKey];
-    if (defaultOptions[kCRToastFontKey])                            kCRFontDefault                          = defaultOptions[kCRToastFontKey];
-    if (defaultOptions[kCRToastTextColorKey])                       kCRTextColorDefault                     = defaultOptions[kCRToastTextColorKey];
-    if (defaultOptions[kCRToastTextAlignmentKey])                   kCRTextAlignmentDefault                 = [defaultOptions[kCRToastTextAlignmentKey] integerValue];
-    if (defaultOptions[kCRToastTextShadowColorKey])                 kCRTextShadowColorDefault               = defaultOptions[kCRToastTextShadowColorKey];
-    if (defaultOptions[kCRToastTextShadowOffsetKey])                kCRTextShadowOffsetDefault              = [defaultOptions[kCRToastTextShadowOffsetKey] CGSizeValue];
-    if (defaultOptions[kCRToastTextMaxNumberOfLinesKey])            kCRTextMaxNumberOfLinesDefault          = [defaultOptions[kCRToastTextMaxNumberOfLinesKey] integerValue];
-    
-    if (defaultOptions[kCRToastStatusBarStyleKey])                  kCRStatusBarStyleDefault                = [defaultOptions[kCRToastStatusBarStyleKey] integerValue];
-    
-    if (defaultOptions[kCRToastSubtitleTextKey])                    kCRSubtitleTextDefault                  = defaultOptions[kCRToastSubtitleTextKey];
-    if (defaultOptions[kCRToastSubtitleFontKey])                    kCRSubtitleFontDefault                  = defaultOptions[kCRToastSubtitleFontKey];
-    if (defaultOptions[kCRToastSubtitleTextColorKey])               kCRSubtitleTextColorDefault             = defaultOptions[kCRToastSubtitleTextColorKey];
-    if (defaultOptions[kCRToastSubtitleTextAlignmentKey])           kCRSubtitleTextAlignmentDefault         = [defaultOptions[kCRToastSubtitleTextAlignmentKey] integerValue];
-    if (defaultOptions[kCRToastSubtitleTextShadowColorKey])         kCRSubtitleTextShadowColorDefault       = defaultOptions[kCRToastSubtitleTextShadowColorKey];
-    if (defaultOptions[kCRToastSubtitleTextShadowOffsetKey])        kCRSubtitleTextShadowOffsetDefault      = [defaultOptions[kCRToastSubtitleTextShadowOffsetKey] CGSizeValue];
-    if (defaultOptions[kCRToastSubtitleTextMaxNumberOfLinesKey])    kCRSubtitleTextMaxNumberOfLinesDefault  = [defaultOptions[kCRToastSubtitleTextMaxNumberOfLinesKey] integerValue];
-    
-    if (defaultOptions[kCRToastBackgroundColorKey])                 kCRBackgroundColorDefault               = defaultOptions[kCRToastBackgroundColorKey];
-    if (defaultOptions[kCRToastImageKey])                           kCRImageDefault                         = defaultOptions[kCRToastImageKey];
-    
-    if (defaultOptions[kCRToastInteractionRespondersKey])           kCRInteractionResponders               = defaultOptions[kCRToastInteractionRespondersKey];
-    if (defaultOptions[kCRToastAutorotateKey])                      kCRAutoRotateDefault                   = [defaultOptions[kCRToastAutorotateKey] boolValue];
+    if (defaultOptions[kCRToastNotificationTypeKey]) kCRNotificationTypeDefault = [defaultOptions[kCRToastNotificationTypeKey] integerValue];
+    if (defaultOptions[kCRToastNotificationPreferredHeightKey]) kCRNotificationPreferredHeightDefault = [defaultOptions[kCRToastNotificationPreferredHeightKey] floatValue];
+    if (defaultOptions[kCRToastNotificationPresentationTypeKey]) kCRNotificationPresentationTypeDefault = [defaultOptions[kCRToastNotificationPresentationTypeKey] integerValue];
+
+    if (defaultOptions[kCRToastUnderStatusBarKey]) kCRDisplayUnderStatusBarDefault = [defaultOptions[kCRToastUnderStatusBarKey] boolValue];
+
+    if (defaultOptions[kCRToastAnimationInTypeKey]) kCRAnimationTypeDefaultIn = [defaultOptions[kCRToastAnimationInTypeKey] integerValue];
+    if (defaultOptions[kCRToastAnimationOutTypeKey]) kCRAnimationTypeDefaultOut = [defaultOptions[kCRToastAnimationOutTypeKey] integerValue];
+    if (defaultOptions[kCRToastAnimationInDirectionKey]) kCRInAnimationDirectionDefault = [defaultOptions[kCRToastAnimationInDirectionKey] integerValue];
+    if (defaultOptions[kCRToastAnimationOutDirectionKey]) kCROutAnimationDirectionDefault = [defaultOptions[kCRToastAnimationOutDirectionKey] integerValue];
+
+    if (defaultOptions[kCRToastAnimationInTimeIntervalKey]) kCRAnimateInTimeIntervalDefault = [defaultOptions[kCRToastAnimationInTimeIntervalKey] doubleValue];
+    if (defaultOptions[kCRToastTimeIntervalKey]) kCRTimeIntervalDefault = [defaultOptions[kCRToastTimeIntervalKey] doubleValue];
+    if (defaultOptions[kCRToastAnimationOutTimeIntervalKey]) kCRAnimateOutTimeIntervalDefault = [defaultOptions[kCRToastAnimationOutTimeIntervalKey] doubleValue];
+
+    if (defaultOptions[kCRToastAnimationSpringDampingKey]) kCRSpringDampingDefault = [defaultOptions[kCRToastAnimationSpringDampingKey] floatValue];
+    if (defaultOptions[kCRToastAnimationSpringInitialVelocityKey]) kCRSpringInitialVelocityDefault = [defaultOptions[kCRToastAnimationSpringInitialVelocityKey] floatValue];
+    if (defaultOptions[kCRToastAnimationGravityMagnitudeKey]) kCRGravityMagnitudeDefault = [defaultOptions[kCRToastAnimationGravityMagnitudeKey] floatValue];
+
+    if (defaultOptions[kCRToastTextKey]) kCRTextDefault = defaultOptions[kCRToastTextKey];
+    if (defaultOptions[kCRToastFontKey]) kCRFontDefault = defaultOptions[kCRToastFontKey];
+    if (defaultOptions[kCRToastTextColorKey]) kCRTextColorDefault = defaultOptions[kCRToastTextColorKey];
+    if (defaultOptions[kCRToastTextAlignmentKey]) kCRTextAlignmentDefault = [defaultOptions[kCRToastTextAlignmentKey] integerValue];
+    if (defaultOptions[kCRToastTextShadowColorKey]) kCRTextShadowColorDefault = defaultOptions[kCRToastTextShadowColorKey];
+    if (defaultOptions[kCRToastTextShadowOffsetKey]) kCRTextShadowOffsetDefault = [defaultOptions[kCRToastTextShadowOffsetKey] CGSizeValue];
+    if (defaultOptions[kCRToastTextMaxNumberOfLinesKey]) kCRTextMaxNumberOfLinesDefault = [defaultOptions[kCRToastTextMaxNumberOfLinesKey] integerValue];
+
+    if (defaultOptions[kCRToastStatusBarStyleKey]) kCRStatusBarStyleDefault = [defaultOptions[kCRToastStatusBarStyleKey] integerValue];
+
+    if (defaultOptions[kCRToastSubtitleTextKey]) kCRSubtitleTextDefault = defaultOptions[kCRToastSubtitleTextKey];
+    if (defaultOptions[kCRToastSubtitleFontKey]) kCRSubtitleFontDefault = defaultOptions[kCRToastSubtitleFontKey];
+    if (defaultOptions[kCRToastSubtitleTextColorKey]) kCRSubtitleTextColorDefault = defaultOptions[kCRToastSubtitleTextColorKey];
+    if (defaultOptions[kCRToastSubtitleTextAlignmentKey]) kCRSubtitleTextAlignmentDefault = [defaultOptions[kCRToastSubtitleTextAlignmentKey] integerValue];
+    if (defaultOptions[kCRToastSubtitleTextShadowColorKey]) kCRSubtitleTextShadowColorDefault = defaultOptions[kCRToastSubtitleTextShadowColorKey];
+    if (defaultOptions[kCRToastSubtitleTextShadowOffsetKey]) kCRSubtitleTextShadowOffsetDefault = [defaultOptions[kCRToastSubtitleTextShadowOffsetKey] CGSizeValue];
+    if (defaultOptions[kCRToastSubtitleTextMaxNumberOfLinesKey]) kCRSubtitleTextMaxNumberOfLinesDefault = [defaultOptions[kCRToastSubtitleTextMaxNumberOfLinesKey] integerValue];
+
+    if (defaultOptions[kCRToastBackgroundColorKey]) kCRBackgroundColorDefault = defaultOptions[kCRToastBackgroundColorKey];
+    if (defaultOptions[kCRToastImageKey]) kCRImageDefault = defaultOptions[kCRToastImageKey];
+
+    if (defaultOptions[kCRToastInteractionRespondersKey]) kCRInteractionResponders = defaultOptions[kCRToastInteractionRespondersKey];
+    if (defaultOptions[kCRToastAutorotateKey]) kCRAutoRotateDefault = [defaultOptions[kCRToastAutorotateKey] boolValue];
 }
 
 #pragma mark - Notification View Helpers
 
-- (UIView*)notificationView {
+- (UIView *)notificationView
+{
     CGSize size = CRNotificationViewSize(self.notificationType, self.preferredHeight);
     CRToastView *notificationView = [[CRToastView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     notificationView.toast = self;
     return notificationView;
 }
 
-- (CGRect)notificationViewAnimationFrame1 {
+- (CGRect)notificationViewAnimationFrame1
+{
     return CRNotificationViewFrame(self.notificationType, self.inAnimationDirection, self.preferredHeight);
 }
 
-- (CGRect)notificationViewAnimationFrame2 {
+- (CGRect)notificationViewAnimationFrame2
+{
     return CRNotificationViewFrame(self.notificationType, self.outAnimationDirection, self.preferredHeight);
 }
 
-- (UIView*)statusBarView {
+- (UIView *)statusBarView
+{
     UIView *statusBarView = [[UIView alloc] initWithFrame:self.statusBarViewAnimationFrame1];
     [statusBarView addSubview:CRStatusBarSnapShotView(self.displayUnderStatusBar)];
     statusBarView.clipsToBounds = YES;
     return statusBarView;
 }
 
-- (CGRect)statusBarViewAnimationFrame1 {
+- (CGRect)statusBarViewAnimationFrame1
+{
     return CRStatusBarViewFrame(self.notificationType, self.inAnimationDirection, self.preferredHeight);
 }
 
-- (CGRect)statusBarViewAnimationFrame2 {
+- (CGRect)statusBarViewAnimationFrame2
+{
     return CRStatusBarViewFrame(self.notificationType, self.outAnimationDirection, self.preferredHeight);
 }
 
 #pragma mark - Gesture Recognizer Actions
 
-- (void)swipeGestureRecognizerSwiped:(CRToastSwipeGestureRecognizer*)swipeGestureRecognizer {
-    if (swipeGestureRecognizer.automaticallyDismiss) {
+- (void)swipeGestureRecognizerSwiped:(CRToastSwipeGestureRecognizer *)swipeGestureRecognizer
+{
+    if (swipeGestureRecognizer.automaticallyDismiss)
+    {
         [CRToastManager dismissNotification:YES];
     }
-    
-    if (swipeGestureRecognizer.block) {
+
+    if (swipeGestureRecognizer.block)
+    {
         swipeGestureRecognizer.block(swipeGestureRecognizer.interactionType);
     }
 }
 
-- (void)tapGestureRecognizerTapped:(CRToastTapGestureRecognizer*)tapGestureRecognizer {
-    if (tapGestureRecognizer.automaticallyDismiss) {
+- (void)tapGestureRecognizerTapped:(CRToastTapGestureRecognizer *)tapGestureRecognizer
+{
+    if (tapGestureRecognizer.automaticallyDismiss)
+    {
         [CRToastManager dismissNotification:YES];
     }
-    
-    if (tapGestureRecognizer.block) {
+
+    if (tapGestureRecognizer.block)
+    {
         tapGestureRecognizer.block(tapGestureRecognizer.interactionType);
     }
 }
 
 #pragma mark - Overrides
 
-- (NSArray*)gestureRecognizersForInteractionResponder:(NSArray*)interactionResponders {
+- (NSArray *)gestureRecognizersForInteractionResponder:(NSArray *)interactionResponders
+{
     NSMutableArray *gestureRecognizers = [@[] mutableCopy];
-    for (CRToastInteractionResponder *interactionResponder in [kCRInteractionResponders arrayByAddingObjectsFromArray:interactionResponders]) {
-        if (CRToastInteractionResponderIsGenertic(interactionResponder.interactionType)) {
+    for (CRToastInteractionResponder *interactionResponder in [kCRInteractionResponders arrayByAddingObjectsFromArray:interactionResponders])
+    {
+        if (CRToastInteractionResponderIsGenertic(interactionResponder.interactionType))
+        {
             gestureRecognizers = [CRToastGenericRecognizersMake(self, interactionResponder) mutableCopy];
-        } else {
+        } else
+        {
             UIGestureRecognizer *gestureRecognizer = CRToastGestureRecognizerMake(self, interactionResponder);
             gestureRecognizer.delegate = self;
             [gestureRecognizers addObject:gestureRecognizer];
@@ -624,341 +687,398 @@ NSArray * CRToastGenericRecognizersMake(id target, CRToastInteractionResponder *
     return [NSArray arrayWithArray:gestureRecognizers];
 }
 
-- (NSArray*)gestureRecognizers {
+- (NSArray *)gestureRecognizers
+{
     return _options[kCRToastInteractionRespondersKey] ?
-    _gestureRecognizers ?: [self gestureRecognizersForInteractionResponder:_options[kCRToastInteractionRespondersKey]] :
-    [self gestureRecognizersForInteractionResponder:kCRInteractionResponders];
+            _gestureRecognizers ?: [self gestureRecognizersForInteractionResponder:_options[kCRToastInteractionRespondersKey]] :
+            [self gestureRecognizersForInteractionResponder:kCRInteractionResponders];
 }
 
-- (CRToastType)notificationType {
+- (CRToastType)notificationType
+{
     return _options[kCRToastNotificationTypeKey] ?
-    [self.options[kCRToastNotificationTypeKey] integerValue] :
-    kCRNotificationTypeDefault;
+            [self.options[kCRToastNotificationTypeKey] integerValue] :
+            kCRNotificationTypeDefault;
 }
 
-- (CGFloat)preferredHeight {
+- (CGFloat)preferredHeight
+{
     return _options[kCRToastNotificationPreferredHeightKey] ?
-    [_options[kCRToastNotificationPreferredHeightKey] floatValue] :
-    kCRNotificationPreferredHeightDefault;
+            [_options[kCRToastNotificationPreferredHeightKey] floatValue] :
+            kCRNotificationPreferredHeightDefault;
 }
 
-- (CRToastPresentationType)presentationType {
+- (CRToastPresentationType)presentationType
+{
     return _options[kCRToastNotificationPresentationTypeKey] ?
-    [self.options[kCRToastNotificationPresentationTypeKey] integerValue] :
-    kCRNotificationPresentationTypeDefault;
+            [self.options[kCRToastNotificationPresentationTypeKey] integerValue] :
+            kCRNotificationPresentationTypeDefault;
 }
 
-- (BOOL)displayUnderStatusBar {
+- (BOOL)displayUnderStatusBar
+{
     return _options[kCRToastUnderStatusBarKey] ?
-    [self.options[kCRToastUnderStatusBarKey] boolValue] :
-    kCRDisplayUnderStatusBarDefault;
+            [self.options[kCRToastUnderStatusBarKey] boolValue] :
+            kCRDisplayUnderStatusBarDefault;
 }
 
-- (CRToastAnimationType)inAnimationType {
+- (CRToastAnimationType)inAnimationType
+{
     return _options[kCRToastAnimationInTypeKey] ?
-    [_options[kCRToastAnimationInTypeKey] integerValue] :
-    kCRAnimationTypeDefaultIn;
+            [_options[kCRToastAnimationInTypeKey] integerValue] :
+            kCRAnimationTypeDefaultIn;
 }
 
-- (CRToastAnimationType)outAnimationType {
+- (CRToastAnimationType)outAnimationType
+{
     return _options[kCRToastAnimationOutTypeKey] ?
-    [_options[kCRToastAnimationOutTypeKey] integerValue] :
-    kCRAnimationTypeDefaultOut;
+            [_options[kCRToastAnimationOutTypeKey] integerValue] :
+            kCRAnimationTypeDefaultOut;
 }
 
-- (CRToastAnimationDirection)inAnimationDirection {
+- (CRToastAnimationDirection)inAnimationDirection
+{
     return _options[kCRToastAnimationInDirectionKey] ?
-    [_options[kCRToastAnimationInDirectionKey] integerValue] :
-    kCRInAnimationDirectionDefault;
+            [_options[kCRToastAnimationInDirectionKey] integerValue] :
+            kCRInAnimationDirectionDefault;
 }
 
-- (CRToastAnimationDirection)outAnimationDirection {
+- (CRToastAnimationDirection)outAnimationDirection
+{
     return _options[kCRToastAnimationInDirectionKey] ?
-    [_options[kCRToastAnimationOutDirectionKey] integerValue] :
-    kCROutAnimationDirectionDefault;
+            [_options[kCRToastAnimationOutDirectionKey] integerValue] :
+            kCROutAnimationDirectionDefault;
 }
 
-- (NSTimeInterval)animateInTimeInterval {
+- (NSTimeInterval)animateInTimeInterval
+{
     return _options[kCRToastAnimationInTimeIntervalKey] ?
-    [_options[kCRToastAnimationInTimeIntervalKey] doubleValue] :
-    kCRAnimateInTimeIntervalDefault;
+            [_options[kCRToastAnimationInTimeIntervalKey] doubleValue] :
+            kCRAnimateInTimeIntervalDefault;
 }
 
-- (NSTimeInterval)timeInterval {
+- (NSTimeInterval)timeInterval
+{
     return _options[kCRToastTimeIntervalKey] ?
-    [_options[kCRToastTimeIntervalKey] doubleValue] :
-    kCRTimeIntervalDefault;
+            [_options[kCRToastTimeIntervalKey] doubleValue] :
+            kCRTimeIntervalDefault;
 }
 
-- (NSTimeInterval)animateOutTimeInterval {
+- (NSTimeInterval)animateOutTimeInterval
+{
     return _options[kCRToastAnimationOutTimeIntervalKey] ?
-    [_options[kCRToastAnimationOutTimeIntervalKey] doubleValue] :
-    kCRAnimateOutTimeIntervalDefault;
+            [_options[kCRToastAnimationOutTimeIntervalKey] doubleValue] :
+            kCRAnimateOutTimeIntervalDefault;
 }
 
-- (CGFloat)animationSpringInitialVelocity {
+- (CGFloat)animationSpringInitialVelocity
+{
     return _options[kCRToastAnimationSpringInitialVelocityKey] ?
-    [_options[kCRToastAnimationSpringInitialVelocityKey] floatValue] :
-    kCRSpringInitialVelocityDefault;
+            [_options[kCRToastAnimationSpringInitialVelocityKey] floatValue] :
+            kCRSpringInitialVelocityDefault;
 }
 
-- (CGFloat)animationSpringDamping {
+- (CGFloat)animationSpringDamping
+{
     return _options[kCRToastAnimationSpringDampingKey] ?
-    [_options[kCRToastAnimationSpringDampingKey] floatValue] :
-    kCRSpringDampingDefault;
+            [_options[kCRToastAnimationSpringDampingKey] floatValue] :
+            kCRSpringDampingDefault;
 }
 
-- (CGFloat)animationGravityMagnitude {
+- (CGFloat)animationGravityMagnitude
+{
     return _options[kCRToastAnimationGravityMagnitudeKey] ?
-    [_options[kCRToastAnimationGravityMagnitudeKey] floatValue] :
-    kCRGravityMagnitudeDefault;
+            [_options[kCRToastAnimationGravityMagnitudeKey] floatValue] :
+            kCRGravityMagnitudeDefault;
 }
 
-- (NSString*)text {
+- (NSString *)text
+{
     return _options[kCRToastTextKey] ?: kCRTextDefault;
 }
 
-- (UIFont*)font {
+- (UIFont *)font
+{
     return _options[kCRToastFontKey] ?: kCRFontDefault;
 }
 
-- (UIColor*)textColor {
+- (UIColor *)textColor
+{
     return _options[kCRToastTextColorKey] ?: kCRTextColorDefault;
 }
 
-- (NSTextAlignment)textAlignment {
+- (NSTextAlignment)textAlignment
+{
     return _options[kCRToastTextAlignmentKey] ? [_options[kCRToastTextAlignmentKey] integerValue] : kCRTextAlignmentDefault;
 }
 
-- (UIColor*)textShadowColor {
+- (UIColor *)textShadowColor
+{
     return _options[kCRToastTextShadowColorKey] ?: kCRTextShadowColorDefault;
 }
 
-- (CGSize)textShadowOffset {
+- (CGSize)textShadowOffset
+{
     return _options[kCRToastTextShadowOffsetKey] ?
-    [_options[kCRToastTextShadowOffsetKey] CGSizeValue]:
-    kCRTextShadowOffsetDefault;
+            [_options[kCRToastTextShadowOffsetKey] CGSizeValue] :
+            kCRTextShadowOffsetDefault;
 }
 
-- (NSString*)subtitleText {
+- (NSString *)subtitleText
+{
     return _options[kCRToastSubtitleTextKey] ?: kCRSubtitleTextDefault;
 }
 
-- (UIFont*)subtitleFont {
+- (UIFont *)subtitleFont
+{
     return _options[kCRToastSubtitleFontKey] ?: kCRSubtitleFontDefault;
 }
 
-- (UIColor*)subtitleTextColor {
+- (UIColor *)subtitleTextColor
+{
     return _options[kCRToastSubtitleTextColorKey] ?: kCRSubtitleTextColorDefault;
 }
 
-- (NSTextAlignment)subtitleTextAlignment {
+- (NSTextAlignment)subtitleTextAlignment
+{
     return _options[kCRToastSubtitleTextAlignmentKey] ? [_options[kCRToastSubtitleTextAlignmentKey] integerValue] : kCRSubtitleTextAlignmentDefault;
 }
 
-- (UIColor*)subtitleTextShadowColor {
+- (UIColor *)subtitleTextShadowColor
+{
     return _options[kCRToastSubtitleTextShadowColorKey] ?: kCRSubtitleTextShadowColorDefault;
 }
 
-- (CGSize)subtitleTextShadowOffset {
+- (CGSize)subtitleTextShadowOffset
+{
     return _options[kCRToastSubtitleTextShadowOffsetKey] ?
-    [_options[kCRToastSubtitleTextShadowOffsetKey] CGSizeValue]:
-    kCRSubtitleTextShadowOffsetDefault;
+            [_options[kCRToastSubtitleTextShadowOffsetKey] CGSizeValue] :
+            kCRSubtitleTextShadowOffsetDefault;
 }
 
-- (UIColor*)backgroundColor {
+- (UIColor *)backgroundColor
+{
     return _options[kCRToastBackgroundColorKey] ?: kCRBackgroundColorDefault;
 }
 
-- (UIImage*)image {
+- (UIImage *)image
+{
     return _options[kCRToastImageKey] ?: kCRImageDefault;
 }
 
-- (NSInteger)maxNumberOfLines {
+- (NSInteger)maxNumberOfLines
+{
     return _options[kCRToastTextMaxNumberOfLinesKey] ?
-    [_options[kCRToastTextMaxNumberOfLinesKey] integerValue] :
-    kCRTextMaxNumberOfLinesDefault;
+            [_options[kCRToastTextMaxNumberOfLinesKey] integerValue] :
+            kCRTextMaxNumberOfLinesDefault;
 }
 
-- (NSInteger)subtitleMaxNumberOfLines {
+- (NSInteger)subtitleMaxNumberOfLines
+{
     return _options[kCRToastSubtitleTextMaxNumberOfLinesKey] ?
-    [_options[kCRToastSubtitleTextMaxNumberOfLinesKey] integerValue] :
-    kCRSubtitleTextMaxNumberOfLinesDefault;
+            [_options[kCRToastSubtitleTextMaxNumberOfLinesKey] integerValue] :
+            kCRSubtitleTextMaxNumberOfLinesDefault;
 }
 
-- (UIStatusBarStyle)statusBarStyle {
+- (UIStatusBarStyle)statusBarStyle
+{
     return _options[kCRToastStatusBarStyleKey] ? [_options[kCRToastStatusBarStyleKey] integerValue] : kCRStatusBarStyleDefault;
 }
 
-- (BOOL)autorotate {
+- (BOOL)autorotate
+{
     return (_options[kCRToastAutorotateKey] ? [_options[kCRToastAutorotateKey] boolValue] : kCRAutoRotateDefault);
 }
 
-BOOL CRToastAnimationDirectionIsVertical(CRToastAnimationDirection animationDirection) {
+BOOL CRToastAnimationDirectionIsVertical(CRToastAnimationDirection animationDirection)
+{
     return (animationDirection == CRToastAnimationDirectionTop || animationDirection == CRToastAnimationDirectionBottom);
 }
 
-BOOL CRToastAnimationDirectionIsHorizontal(CRToastAnimationDirection animationDirection) {
+BOOL CRToastAnimationDirectionIsHorizontal(CRToastAnimationDirection animationDirection)
+{
     return !CRToastAnimationDirectionIsVertical(animationDirection);
 }
 
 static CGFloat kCRCollisionTweak = 0.5;
 
-- (CGVector)inGravityDirection {
+- (CGVector)inGravityDirection
+{
     CGFloat xVector = CRToastAnimationDirectionIsVertical(self.inAnimationDirection) ? 0.0 :
-    1.0 * (self.inAnimationDirection == CRToastAnimationDirectionLeft ?: -1.0);
+            1.0 * (self.inAnimationDirection == CRToastAnimationDirectionLeft ?: -1.0);
     CGFloat yVector = xVector != 0 ? 0.0 :
-    1.0 * (self.inAnimationDirection == CRToastAnimationDirectionTop ?: -1.0);
+            1.0 * (self.inAnimationDirection == CRToastAnimationDirectionTop ?: -1.0);
     return CGVectorMake(xVector, yVector);
 }
 
-- (CGVector)outGravityDirection {
+- (CGVector)outGravityDirection
+{
     CGFloat xVector = CRToastAnimationDirectionIsVertical(self.outAnimationDirection) ? 0.0 :
-    1.0 * (self.outAnimationDirection != CRToastAnimationDirectionLeft ?: -1.0);
+            1.0 * (self.outAnimationDirection != CRToastAnimationDirectionLeft ?: -1.0);
     CGFloat yVector = xVector != 0 ? 0.0 :
-    1.0 * (self.outAnimationDirection != CRToastAnimationDirectionTop ?: -1.0);
+            1.0 * (self.outAnimationDirection != CRToastAnimationDirectionTop ?: -1.0);
     return CGVectorMake(xVector, yVector);
 }
 
-- (CGPoint)inCollisionPoint1 {
+- (CGPoint)inCollisionPoint1
+{
     CGFloat x;
     CGFloat y;
     CGFloat factor = self.presentationType == CRToastPresentationTypeCover ?: 2;
     BOOL push = self.presentationType == CRToastPresentationTypePush;
-    switch (self.inAnimationDirection) {
+    switch (self.inAnimationDirection)
+    {
         case CRToastAnimationDirectionTop:
             x = 0;
-            y = (factor*CGRectGetHeight(self.notificationViewAnimationFrame1))+(push ? -4*kCRCollisionTweak : kCRCollisionTweak);
+            y = (factor * CGRectGetHeight(self.notificationViewAnimationFrame1)) + (push ? -4 * kCRCollisionTweak : kCRCollisionTweak);
             break;
         case CRToastAnimationDirectionLeft:
-            x = (factor*CGRectGetWidth(self.notificationViewAnimationFrame1))+(push ? -5*kCRCollisionTweak : 2*kCRCollisionTweak);
+            x = (factor * CGRectGetWidth(self.notificationViewAnimationFrame1)) + (push ? -5 * kCRCollisionTweak : 2 * kCRCollisionTweak);
             y = CGRectGetHeight(self.notificationViewAnimationFrame1);
             break;
         case CRToastAnimationDirectionBottom:
             x = CGRectGetWidth(self.notificationViewAnimationFrame1);
-            y = -((factor-1)*CGRectGetHeight(self.notificationViewAnimationFrame1))-(push ? -5*kCRCollisionTweak : kCRCollisionTweak);;
+            y = -((factor - 1) * CGRectGetHeight(self.notificationViewAnimationFrame1)) - (push ? -5 * kCRCollisionTweak : kCRCollisionTweak);;
             break;
         case CRToastAnimationDirectionRight:
-            x = -((factor-1)*CGRectGetWidth(self.notificationViewAnimationFrame1))-(push ? -5*kCRCollisionTweak : 2*kCRCollisionTweak);;
+            x = -((factor - 1) * CGRectGetWidth(self.notificationViewAnimationFrame1)) - (push ? -5 * kCRCollisionTweak : 2 * kCRCollisionTweak);;
             y = 0;
             break;
     }
-    return (CGPoint){x, y};
+    return (CGPoint) {x, y};
 }
 
-- (CGPoint)inCollisionPoint2 {
+- (CGPoint)inCollisionPoint2
+{
     CGFloat x;
     CGFloat y;
     CGFloat factor = self.presentationType == CRToastPresentationTypeCover ?: 2;
     BOOL push = self.presentationType == CRToastPresentationTypePush;
-    switch (self.inAnimationDirection) {
+    switch (self.inAnimationDirection)
+    {
         case CRToastAnimationDirectionTop:
             x = CGRectGetWidth(self.notificationViewAnimationFrame1);
-            y = (factor*CGRectGetHeight(self.notificationViewAnimationFrame1))+(push ? -4*kCRCollisionTweak : kCRCollisionTweak);
+            y = (factor * CGRectGetHeight(self.notificationViewAnimationFrame1)) + (push ? -4 * kCRCollisionTweak : kCRCollisionTweak);
             break;
         case CRToastAnimationDirectionLeft:
-            x = (factor*CGRectGetWidth(self.notificationViewAnimationFrame1))+(push ? -5*kCRCollisionTweak : 2*kCRCollisionTweak);
+            x = (factor * CGRectGetWidth(self.notificationViewAnimationFrame1)) + (push ? -5 * kCRCollisionTweak : 2 * kCRCollisionTweak);
             y = 0;
             break;
         case CRToastAnimationDirectionBottom:
             x = 0;
-            y = -((factor-1)*CGRectGetHeight(self.notificationViewAnimationFrame1))-(push ? -5*kCRCollisionTweak : kCRCollisionTweak);
+            y = -((factor - 1) * CGRectGetHeight(self.notificationViewAnimationFrame1)) - (push ? -5 * kCRCollisionTweak : kCRCollisionTweak);
             break;
         case CRToastAnimationDirectionRight:
-            x = -((factor-1)*CGRectGetWidth(self.notificationViewAnimationFrame1))-(push ? -5*kCRCollisionTweak : 2*kCRCollisionTweak);
+            x = -((factor - 1) * CGRectGetWidth(self.notificationViewAnimationFrame1)) - (push ? -5 * kCRCollisionTweak : 2 * kCRCollisionTweak);
             y = CGRectGetHeight(self.notificationViewAnimationFrame1);
             break;
     }
-    return (CGPoint){x, y};
+    return (CGPoint) {x, y};
 }
 
-- (CGPoint)outCollisionPoint1 {
+- (CGPoint)outCollisionPoint1
+{
     CGFloat x;
     CGFloat y;
-    switch (self.outAnimationDirection) {
+    switch (self.outAnimationDirection)
+    {
         case CRToastAnimationDirectionTop:
             x = CGRectGetWidth(self.notificationViewAnimationFrame1);
-            y = -CGRectGetHeight(self.notificationViewAnimationFrame1)-kCRCollisionTweak;
+            y = -CGRectGetHeight(self.notificationViewAnimationFrame1) - kCRCollisionTweak;
             break;
         case CRToastAnimationDirectionLeft:
-            x = -CGRectGetWidth(self.notificationViewAnimationFrame1)-kCRCollisionTweak;
+            x = -CGRectGetWidth(self.notificationViewAnimationFrame1) - kCRCollisionTweak;
             y = 0;
             break;
         case CRToastAnimationDirectionBottom:
             x = 0;
-            y = 2*CGRectGetHeight(self.notificationViewAnimationFrame1)+kCRCollisionTweak;
+            y = 2 * CGRectGetHeight(self.notificationViewAnimationFrame1) + kCRCollisionTweak;
             break;
         case CRToastAnimationDirectionRight:
-            x = 2*CGRectGetWidth(self.notificationViewAnimationFrame1)+2*kCRCollisionTweak;
+            x = 2 * CGRectGetWidth(self.notificationViewAnimationFrame1) + 2 * kCRCollisionTweak;
             y = CGRectGetHeight(self.notificationViewAnimationFrame1);
             break;
     }
-    return (CGPoint){x, y};
+    return (CGPoint) {x, y};
 }
 
-- (CGPoint)outCollisionPoint2 {
+- (CGPoint)outCollisionPoint2
+{
     CGFloat x;
     CGFloat y;
-    switch (self.outAnimationDirection) {
+    switch (self.outAnimationDirection)
+    {
         case CRToastAnimationDirectionTop:
             x = 0;
-            y = -CGRectGetHeight(self.notificationViewAnimationFrame1)-kCRCollisionTweak;
+            y = -CGRectGetHeight(self.notificationViewAnimationFrame1) - kCRCollisionTweak;
             break;
         case CRToastAnimationDirectionLeft:
-            x = -CGRectGetWidth(self.notificationViewAnimationFrame1)-kCRCollisionTweak;
+            x = -CGRectGetWidth(self.notificationViewAnimationFrame1) - kCRCollisionTweak;
             y = CGRectGetHeight(self.notificationViewAnimationFrame1);
             break;
         case CRToastAnimationDirectionBottom:
             x = CGRectGetWidth(self.notificationViewAnimationFrame1);
-            y = 2*CGRectGetHeight(self.notificationViewAnimationFrame1)+kCRCollisionTweak;
+            y = 2 * CGRectGetHeight(self.notificationViewAnimationFrame1) + kCRCollisionTweak;
             break;
         case CRToastAnimationDirectionRight:
-            x = 2*CGRectGetWidth(self.notificationViewAnimationFrame1)+2*kCRCollisionTweak;
+            x = 2 * CGRectGetWidth(self.notificationViewAnimationFrame1) + 2 * kCRCollisionTweak;
             y = 0;
             break;
     }
-    return (CGPoint){x, y};
+    return (CGPoint) {x, y};
 }
 
-- (void)warnAboutSensibility {
-    if (self.notificationType == CRToastTypeStatusBar) {
-        if (self.displayUnderStatusBar) {
+- (void)warnAboutSensibility
+{
+    if (self.notificationType == CRToastTypeStatusBar)
+    {
+        if (self.displayUnderStatusBar)
+        {
             NSLog(@"[CRToast] : WARNING - It is not sensible to have set kCRToastNotificationTypeKey to @(CRToastTypeStatusBar) while setting kCRToastUnderStatusBarKey to @(YES). I'll do what you ask, but it'll probably work weird");
         }
-        
-        if (self.subtitleText) {
+
+        if (self.subtitleText)
+        {
             NSLog(@"[CRToast] : WARNING - It is not sensible to have set kCRToastNotificationTypeKey to @(CRToastTypeStatusBar) and configuring subtitle text to show. I'll do what you ask, but it'll probably work weird");
         }
     }
-    
-    if (self.inAnimationType == CRToastAnimationTypeGravity) {
-        if (self.animateInTimeInterval != kCRAnimateInTimeIntervalDefault) {
+
+    if (self.inAnimationType == CRToastAnimationTypeGravity)
+    {
+        if (self.animateInTimeInterval != kCRAnimateInTimeIntervalDefault)
+        {
             NSLog(@"[CRToast] : WARNING - It is not sensible to have set kCRToastAnimationInTypeKey to @(CRToastAnimationTypeGravity) and configure a kCRToastAnimationInTimeIntervalKey. Gravity and distance will be driving the in animation duration here. kCRToastAnimationGravityMagnitudeKey can be modified to change the in animation duration.");
         }
     }
-    
-    if (self.outAnimationType == CRToastAnimationTypeGravity) {
-        if (self.animateOutTimeInterval != kCRAnimateOutTimeIntervalDefault) {
+
+    if (self.outAnimationType == CRToastAnimationTypeGravity)
+    {
+        if (self.animateOutTimeInterval != kCRAnimateOutTimeIntervalDefault)
+        {
             NSLog(@"[CRToast] : WARNING - It is not sensible to have set kCRToastAnimationOutTypeKey to @(CRToastAnimationTypeGravity) and configure a kCRToastAnimationOutTimeIntervalKey. Gravity and distance will be driving the in animation duration here. kCRToastAnimationGravityMagnitudeKey can be modified to change the in animation duration.");
         }
     }
 }
 
-- (void)setOptions:(NSDictionary *)options {
+- (void)setOptions:(NSDictionary *)options
+{
     NSMutableDictionary *cleanOptions = [options mutableCopy];
-    [options enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [options enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+    {
         //Check keys validity followed by checking objects type validity
-        if ([kCRToastKeyClassMap.allKeys indexOfObject:key] == NSNotFound) {
+        if ([kCRToastKeyClassMap.allKeys indexOfObject:key] == NSNotFound)
+        {
             NSLog(@"[CRToast] : ERROR given unrecognized key %@ in options with object %@",
-                  key,
-                  obj);
+                    key,
+                    obj);
             [cleanOptions removeObjectForKey:key];
-        } else if (![obj isKindOfClass:NSClassFromString(kCRToastKeyClassMap[key])]) {
+        } else if (![obj isKindOfClass:NSClassFromString(kCRToastKeyClassMap[key])])
+        {
             NSLog(@"[CRToast] : ERROR given %@ for key %@ was expecting Class %@ but got Class %@, passing default on instead",
-                  obj,
-                  key,
-                  kCRToastKeyClassMap[key],
-                  NSStringFromClass([obj class]));
+                    obj,
+                    key,
+                    kCRToastKeyClassMap[key],
+                    NSStringFromClass([obj class]));
             [cleanOptions removeObjectForKey:key];
         }
     }];
@@ -968,19 +1088,23 @@ static CGFloat kCRCollisionTweak = 0.5;
 
 #pragma mark - UIGestureRecognizerDelegate
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
     return YES;
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
     return YES;
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
     return YES;
 }
 
-- (void)initiateAnimator:(UIView*)view {
+- (void)initiateAnimator:(UIView *)view
+{
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:view];
 }
 
@@ -989,9 +1113,9 @@ static CGFloat kCRCollisionTweak = 0.5;
 #pragma mark - CRToastView
 
 @interface CRToastView ()
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UILabel *subtitleLabel;
+@property(nonatomic, strong) UIImageView *imageView;
+@property(nonatomic, strong) UILabel *label;
+@property(nonatomic, strong) UILabel *subtitleLabel;
 @end
 
 static CGFloat const kCRStatusBarViewNoImageLeftContentInset = 10;
@@ -1006,95 +1130,107 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
 @implementation CRToastView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         self.userInteractionEnabled = YES;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        
+
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         imageView.userInteractionEnabled = NO;
         imageView.contentMode = UIViewContentModeCenter;
+        imageView.clipsToBounds = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:imageView];
         self.imageView = imageView;
-        
+
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.userInteractionEnabled = NO;
         [self addSubview:label];
         self.label = label;
-        
+
         UILabel *subtitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         subtitleLabel.userInteractionEnabled = NO;
         [self addSubview:subtitleLabel];
         self.subtitleLabel = subtitleLabel;
-        
+
         self.isAccessibilityElement = YES;
     }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     CGRect contentFrame = self.bounds;
     CGSize imageSize = self.imageView.image.size;
-    
-    CGFloat statusBarYOffset = self.toast.displayUnderStatusBar ? (CRGetStatusBarHeight()+CRStatusBarViewUnderStatusBarYOffsetAdjustment) : 0;
+
+    CGFloat statusBarYOffset = self.toast.displayUnderStatusBar ? (CRGetStatusBarHeight() + CRStatusBarViewUnderStatusBarYOffsetAdjustment) : 0;
     contentFrame.size.height = CGRectGetHeight(contentFrame) - statusBarYOffset;
-    
+
     self.imageView.frame = CGRectMake(0,
-                                      statusBarYOffset,
-                                      imageSize.width == 0 ?
-                                      0 :
-                                      CGRectGetHeight(contentFrame),
-                                      imageSize.height == 0 ?
-                                      0 :
-                                      CGRectGetHeight(contentFrame));
+            statusBarYOffset,
+            imageSize.width == 0 ?
+                    0 :
+                    CGRectGetHeight(contentFrame),
+            imageSize.height == 0 ?
+                    0 :
+                    CGRectGetHeight(contentFrame));
+
+    self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2;
     CGFloat x = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame);
-    CGFloat width = CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset;
-    
-    if (self.toast.subtitleText == nil) {
+    CGFloat width = CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset;
+
+    if (self.toast.subtitleText == nil)
+    {
         self.label.frame = CGRectMake(x,
-                                      statusBarYOffset,
-                                      width,
-                                      CGRectGetHeight(contentFrame));
-    } else {
+                statusBarYOffset,
+                width,
+                CGRectGetHeight(contentFrame));
+    } else
+    {
         CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                         attributes:@{NSFontAttributeName : self.toast.font}
                                                            context:nil].size.height,
-                             CGRectGetHeight(contentFrame));
+                CGRectGetHeight(contentFrame));
         CGFloat subtitleHeight = [self.toast.subtitleText boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                                    attributes:@{NSFontAttributeName : self.toast.subtitleFont }
+                                                                    attributes:@{NSFontAttributeName : self.toast.subtitleFont}
                                                                        context:nil].size.height;
-        if ((CGRectGetHeight(contentFrame) - (height + subtitleHeight)) < 5) {
-            subtitleHeight = (CGRectGetHeight(contentFrame) - (height))-10;
+        if ((CGRectGetHeight(contentFrame) - (height + subtitleHeight)) < 5)
+        {
+            subtitleHeight = (CGRectGetHeight(contentFrame) - (height)) - 10;
         }
-        CGFloat offset = (CGRectGetHeight(contentFrame) - (height + subtitleHeight))/2;
-        
+        CGFloat offset = (CGRectGetHeight(contentFrame) - (height + subtitleHeight)) / 2;
+
         self.label.frame = CGRectMake(x,
-                                      offset+statusBarYOffset,
-                                      CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset,
-                                      height);
-        
-        
+                offset + statusBarYOffset,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset,
+                height);
+
+
         self.subtitleLabel.frame = CGRectMake(x,
-                                              height+offset+statusBarYOffset,
-                                              CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset,
-                                              subtitleHeight);
+                height + offset + statusBarYOffset,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset,
+                subtitleHeight);
     }
 }
 
 #pragma mark - Overrides
 
-- (void)setToast:(CRToast *)toast {
+- (void)setToast:(CRToast *)toast
+{
     _toast = toast;
     _label.text = toast.text;
     _label.font = toast.font;
     _label.textColor = toast.textColor;
     _label.textAlignment = toast.textAlignment;
     _label.numberOfLines = toast.textMaxNumberOfLines;
-    if (toast.subtitleText != nil) {
+    if (toast.subtitleText != nil)
+    {
         _subtitleLabel.text = toast.subtitleText;
         _subtitleLabel.font = toast.subtitleFont;
         _subtitleLabel.textColor = toast.subtitleTextColor;
@@ -1115,9 +1251,12 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
 @implementation CRToastWindow
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event {
-    for (UIView *subview in self.subviews) {
-        if ([subview hitTest:[self convertPoint:point toView:subview] withEvent:event] != nil) {
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    for (UIView *subview in self.subviews)
+    {
+        if ([subview hitTest:[self convertPoint:point toView:subview] withEvent:event] != nil)
+        {
             return YES;
         }
     }
@@ -1140,9 +1279,9 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
 @interface CRToastViewController : UIViewController
 
-@property (nonatomic, assign) BOOL autorotate;
-@property (nonatomic, weak) CRToast *notification;
-@property (nonatomic, weak) UIView *toastView;
+@property(nonatomic, assign) BOOL autorotate;
+@property(nonatomic, weak) CRToast *notification;
+@property(nonatomic, weak) UIView *toastView;
 
 - (void)statusBarStyle:(UIStatusBarStyle)newStatusBarStyle;
 
@@ -1152,39 +1291,48 @@ static CGFloat const CRStatusBarViewUnderStatusBarYOffsetAdjustment = -5;
 
 UIStatusBarStyle statusBarStyle;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         _autorotate = YES;
     }
     return self;
 }
 
-- (BOOL)prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden
+{
     return [UIApplication sharedApplication].statusBarHidden;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return statusBarStyle;
 }
 
-- (void)statusBarStyle:(UIStatusBarStyle)newStatusBarStyle {
+- (void)statusBarStyle:(UIStatusBarStyle)newStatusBarStyle
+{
     statusBarStyle = newStatusBarStyle;
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (BOOL)shouldAutorotate {
+- (BOOL)shouldAutorotate
+{
     return _autorotate;
 }
 
-- (void)loadView {
+- (void)loadView
+{
     self.view = [[CRToastContainerView alloc] init];
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    if (self.toastView) {
+
+    if (self.toastView)
+    {
         CGSize notificationSize = CRNotificationViewSizeForOrientation(self.notification.notificationType, self.notification.preferredHeight, toInterfaceOrientation);
         self.toastView.frame = CGRectMake(0, 0, notificationSize.width, notificationSize.height);
     }
@@ -1195,40 +1343,44 @@ UIStatusBarStyle statusBarStyle;
 #pragma mark - CRToastManager
 
 @interface CRToastManager () <UICollisionBehaviorDelegate>
-@property (nonatomic, readonly) BOOL showingNotification;
-@property (nonatomic, strong) UIWindow *notificationWindow;
-@property (nonatomic, strong) UIView *statusBarView;
-@property (nonatomic, strong) UIView *notificationView;
-@property (nonatomic, readonly) CRToast *notification;
-@property (nonatomic, strong) NSMutableArray *notifications;
-@property (nonatomic, copy) void (^gravityAnimationCompletionBlock)(BOOL finished);
+@property(nonatomic, readonly) BOOL showingNotification;
+@property(nonatomic, strong) UIWindow *notificationWindow;
+@property(nonatomic, strong) UIView *statusBarView;
+@property(nonatomic, strong) UIView *notificationView;
+@property(nonatomic, readonly) CRToast *notification;
+@property(nonatomic, strong) NSMutableArray *notifications;
+@property(nonatomic, copy) void (^gravityAnimationCompletionBlock)(BOOL finished);
 @end
 
 static NSString *const kCRToastManagerCollisionBoundryIdentifier = @"kCRToastManagerCollisionBoundryIdentifier";
 
 typedef void (^CRToastAnimationCompletionBlock)(BOOL animated);
+
 typedef void (^CRToastAnimationStepBlock)(void);
 
 @implementation CRToastManager
 
-+ (void)setDefaultOptions:(NSDictionary*)defaultOptions {
++ (void)setDefaultOptions:(NSDictionary *)defaultOptions
+{
     [CRToast setDefaultOptions:defaultOptions];
 }
 
-+ (void)showNotificationWithOptions:(NSDictionary*)options completionBlock:(void (^)(void))completion {
++ (void)showNotificationWithOptions:(NSDictionary *)options completionBlock:(void (^)(void))completion
+{
     [[CRToastManager manager] addNotification:[CRToast notificationWithOptions:options
                                                                appearanceBlock:nil
                                                                completionBlock:completion
-                                                               ]];
+    ]];
 }
 
-+ (void)showNotificationWithMessage:(NSString*)message completionBlock:(void (^)(void))completion {
++ (void)showNotificationWithMessage:(NSString *)message completionBlock:(void (^)(void))completion
+{
     [self showNotificationWithOptions:@{kCRToastTextKey : message}
                       completionBlock:completion];
 }
 
-+ (void)showNotificationWithOptions:(NSDictionary*)options
-                    apperanceBlock:(void (^)(void))appearance
++ (void)showNotificationWithOptions:(NSDictionary *)options
+                     apperanceBlock:(void (^)(void))appearance
                     completionBlock:(void (^)(void))completion
 {
     [[CRToastManager manager] addNotification:[CRToast notificationWithOptions:options
@@ -1237,26 +1389,32 @@ typedef void (^CRToastAnimationStepBlock)(void);
 }
 
 
-+ (void)dismissNotification:(BOOL)animated {
++ (void)dismissNotification:(BOOL)animated
+{
     [[self manager] dismissNotification:animated];
 }
 
-+ (void)dismissAllNotifications:(BOOL)animated {
++ (void)dismissAllNotifications:(BOOL)animated
+{
     [[self manager] dismissAllNotifications:animated];
 }
 
-+ (instancetype)manager {
++ (instancetype)manager
+{
     static dispatch_once_t once;
     static id sharedInstance;
-    dispatch_once(&once, ^{
+    dispatch_once(&once, ^
+    {
         sharedInstance = [[self alloc] init];
     });
     return sharedInstance;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) {
+    if (self)
+    {
         UIWindow *notificationWindow = [[CRToastWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         notificationWindow.backgroundColor = [UIColor clearColor];
         notificationWindow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -1264,7 +1422,7 @@ typedef void (^CRToastAnimationStepBlock)(void);
         notificationWindow.rootViewController = [CRToastViewController new];
         notificationWindow.rootViewController.view.clipsToBounds = YES;
         self.notificationWindow = notificationWindow;
-        
+
         self.notifications = [@[] mutableCopy];
     }
     return self;
@@ -1272,26 +1430,32 @@ typedef void (^CRToastAnimationStepBlock)(void);
 
 #pragma mark - Notification Management
 
-CRToastAnimationCompletionBlock CRToastOutwardAnimationsCompletionBlock(CRToastManager *weakSelf) {
-    return ^void(BOOL completed){
+CRToastAnimationCompletionBlock CRToastOutwardAnimationsCompletionBlock(CRToastManager *weakSelf)
+{
+    return ^void(BOOL completed)
+    {
         weakSelf.notificationWindow.rootViewController.view.gestureRecognizers = nil;
         weakSelf.notification.state = CRToastStateCompleted;
         if (weakSelf.notification.completion) weakSelf.notification.completion();
         [weakSelf.notifications removeObject:weakSelf.notification];
         [weakSelf.notificationView removeFromSuperview];
         [weakSelf.statusBarView removeFromSuperview];
-        if (weakSelf.notifications.count > 0) {
+        if (weakSelf.notifications.count > 0)
+        {
             CRToast *notification = weakSelf.notifications.firstObject;
             weakSelf.gravityAnimationCompletionBlock = NULL;
             [weakSelf displayNotification:notification];
-        } else {
+        } else
+        {
             weakSelf.notificationWindow.hidden = YES;
         }
     };
 }
 
-CRToastAnimationStepBlock CRToastOutwardAnimationsBlock(CRToastManager *weakSelf) {
-    return ^{
+CRToastAnimationStepBlock CRToastOutwardAnimationsBlock(CRToastManager *weakSelf)
+{
+    return ^
+    {
         weakSelf.notification.state = CRToastStateExiting;
         [weakSelf.notification.animator removeAllBehaviors];
         weakSelf.notificationView.frame = weakSelf.notification.notificationViewAnimationFrame2;
@@ -1299,24 +1463,31 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsBlock(CRToastManager *weakSelf
     };
 }
 
-CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *weakSelf) {
-    return ^{
+CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *weakSelf)
+{
+    return ^
+    {
         CRToast *notification = weakSelf.notification;
         weakSelf.notification.state = CRToastStateExiting;
         weakSelf.statusBarView.frame = notification.statusBarViewAnimationFrame2;
-        [weakSelf.notificationWindow.rootViewController.view.gestureRecognizers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [(UIGestureRecognizer*)obj setEnabled:NO];
+        [weakSelf.notificationWindow.rootViewController.view.gestureRecognizers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+        {
+            [(UIGestureRecognizer *) obj setEnabled:NO];
         }];
-        
-        switch (weakSelf.notification.outAnimationType) {
-            case CRToastAnimationTypeLinear: {
+
+        switch (weakSelf.notification.outAnimationType)
+        {
+            case CRToastAnimationTypeLinear:
+            {
                 [UIView animateWithDuration:notification.animateOutTimeInterval
                                       delay:0
                                     options:0
                                  animations:CRToastOutwardAnimationsBlock(weakSelf)
                                  completion:CRToastOutwardAnimationsCompletionBlock(weakSelf)];
-            } break;
-            case CRToastAnimationTypeSpring: {
+            }
+                break;
+            case CRToastAnimationTypeSpring:
+            {
                 [UIView animateWithDuration:notification.animateOutTimeInterval
                                       delay:0
                      usingSpringWithDamping:notification.animationSpringDamping
@@ -1324,13 +1495,16 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
                                     options:0
                                  animations:CRToastOutwardAnimationsBlock(weakSelf)
                                  completion:CRToastOutwardAnimationsCompletionBlock(weakSelf)];
-            } break;
-            case CRToastAnimationTypeGravity: {
-                if (weakSelf.notification.animator == nil) {
+            }
+                break;
+            case CRToastAnimationTypeGravity:
+            {
+                if (weakSelf.notification.animator == nil)
+                {
                     [weakSelf.notification initiateAnimator:weakSelf.notificationWindow.rootViewController.view];
                 }
                 [weakSelf.notification.animator removeAllBehaviors];
-                UIGravityBehavior *gravity = [[UIGravityBehavior alloc]initWithItems:@[weakSelf.notificationView, weakSelf.statusBarView]];
+                UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[weakSelf.notificationView, weakSelf.statusBarView]];
                 gravity.gravityDirection = notification.outGravityDirection;
                 gravity.magnitude = notification.animationGravityMagnitude;
                 NSMutableArray *collisionItems = [@[weakSelf.notificationView] mutableCopy];
@@ -1346,123 +1520,147 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
                 [weakSelf.notification.animator addBehavior:collision];
                 [weakSelf.notification.animator addBehavior:rotationLock];
                 weakSelf.gravityAnimationCompletionBlock = CRToastOutwardAnimationsCompletionBlock(weakSelf);
-            } break;
+            }
+                break;
         }
     };
 }
 
-- (void)dismissNotification:(BOOL)animated {
+- (void)dismissNotification:(BOOL)animated
+{
     if (_notifications.count == 0) return;
-    
-    if (animated && (self.notification.state == CRToastStateEntering || self.notification.state == CRToastStateDisplaying)) {
+
+    if (animated && (self.notification.state == CRToastStateEntering || self.notification.state == CRToastStateDisplaying))
+    {
         __weak __block typeof(self) weakSelf = self;
         CRToastOutwardAnimationsSetupBlock(weakSelf)();
-    } else {
+    } else
+    {
         __weak __block typeof(self) weakSelf = self;
         CRToastOutwardAnimationsCompletionBlock(weakSelf)(YES);
     }
 }
 
-- (void)dismissAllNotifications:(BOOL)animated {
+- (void)dismissAllNotifications:(BOOL)animated
+{
     [self dismissNotification:animated];
     [self.notifications removeAllObjects];
 }
 
-- (void)addNotification:(CRToast*)notification {
+- (void)addNotification:(CRToast *)notification
+{
     BOOL showingNotification = self.showingNotification;
     [_notifications addObject:notification];
-    if (!showingNotification) {
+    if (!showingNotification)
+    {
         [self displayNotification:notification];
     }
 }
 
-- (void)displayNotification:(CRToast*)notification {
+- (void)displayNotification:(CRToast *)notification
+{
     if (notification.appearance != nil)
     {
         notification.appearance();
     }
-    
+
     _notificationWindow.hidden = NO;
     CGSize notificationSize = CRNotificationViewSize(notification.notificationType, notification.preferredHeight);
-    
+
     CGRect containerFrame = CGRectMake(0, 0, notificationSize.width, notificationSize.height);
-	
-	if (!kCRFrameAutoAdjustedForOrientation) {
-		UIInterfaceOrientation statusBarOrientation = CRGetDeviceOrientation();
-		switch (statusBarOrientation) {
-			case UIInterfaceOrientationLandscapeLeft: {
-				containerFrame = CGRectMake(0, 0, notificationSize.height, notificationSize.width);
-				break;
-			}
-			case UIInterfaceOrientationLandscapeRight: {
-				containerFrame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-notificationSize.height, 0, notificationSize.height, notificationSize.width);
-				break;
-			}
-			case UIInterfaceOrientationPortraitUpsideDown: {
-				containerFrame = CGRectMake(0, CGRectGetHeight([[UIScreen mainScreen] bounds])-notificationSize.height, notificationSize.width, notificationSize.height);
-				break;
-			}
-			default: {
-				break;
-			}
-		}
-	}
-    
-    CRToastViewController *rootViewController = (CRToastViewController*)_notificationWindow.rootViewController;
+
+    if (!kCRFrameAutoAdjustedForOrientation)
+    {
+        UIInterfaceOrientation statusBarOrientation = CRGetDeviceOrientation();
+        switch (statusBarOrientation)
+        {
+            case UIInterfaceOrientationLandscapeLeft:
+            {
+                containerFrame = CGRectMake(0, 0, notificationSize.height, notificationSize.width);
+                break;
+            }
+            case UIInterfaceOrientationLandscapeRight:
+            {
+                containerFrame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - notificationSize.height, 0, notificationSize.height, notificationSize.width);
+                break;
+            }
+            case UIInterfaceOrientationPortraitUpsideDown:
+            {
+                containerFrame = CGRectMake(0, CGRectGetHeight([[UIScreen mainScreen] bounds]) - notificationSize.height, notificationSize.width, notificationSize.height);
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+
+    CRToastViewController *rootViewController = (CRToastViewController *) _notificationWindow.rootViewController;
     [rootViewController statusBarStyle:notification.statusBarStyle];
     rootViewController.autorotate = notification.autorotate;
     rootViewController.notification = notification;
-    
+
     _notificationWindow.rootViewController.view.frame = containerFrame;
     _notificationWindow.windowLevel = notification.displayUnderStatusBar ? UIWindowLevelNormal + 1 : UIWindowLevelStatusBar;
-    
+
     UIView *statusBarView = notification.statusBarView;
     statusBarView.frame = _notificationWindow.rootViewController.view.bounds;
     [_notificationWindow.rootViewController.view addSubview:statusBarView];
     self.statusBarView = statusBarView;
     statusBarView.hidden = notification.presentationType == CRToastPresentationTypeCover;
-    
+
     UIView *notificationView = notification.notificationView;
     notificationView.frame = notification.notificationViewAnimationFrame1;
     [_notificationWindow.rootViewController.view addSubview:notificationView];
     self.notificationView = notificationView;
     rootViewController.toastView = notificationView;
     self.statusBarView = statusBarView;
-    
-    for (UIView *subview in _notificationWindow.rootViewController.view.subviews) {
+
+    for (UIView *subview in _notificationWindow.rootViewController.view.subviews)
+    {
         subview.userInteractionEnabled = NO;
     }
-    
+
     _notificationWindow.rootViewController.view.userInteractionEnabled = YES;
     _notificationWindow.rootViewController.view.gestureRecognizers = notification.gestureRecognizers;
-    
+
     __weak __block typeof(self) weakSelf = self;
-    CRToastAnimationStepBlock inwardAnimationsBlock = ^void(void) {
+    CRToastAnimationStepBlock inwardAnimationsBlock = ^void(void)
+    {
         weakSelf.notificationView.frame = weakSelf.notificationWindow.rootViewController.view.bounds;
         weakSelf.statusBarView.frame = notification.statusBarViewAnimationFrame1;
     };
-    
+
     NSString *notificationUUIDString = notification.uuid.UUIDString;
-    CRToastAnimationCompletionBlock inwardAnimationsCompletionBlock = ^void(BOOL finished) {
-        if (notification.timeInterval != DBL_MAX && notification.state == CRToastStateEntering) {
+    CRToastAnimationCompletionBlock inwardAnimationsCompletionBlock = ^void(BOOL finished)
+    {
+        if (notification.timeInterval != DBL_MAX && notification.state == CRToastStateEntering)
+        {
             notification.state = CRToastStateDisplaying;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(notification.timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                if (weakSelf.notification.state == CRToastStateDisplaying && [weakSelf.notification.uuid.UUIDString isEqualToString:notificationUUIDString]) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (notification.timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
+            {
+                if (weakSelf.notification.state == CRToastStateDisplaying && [weakSelf.notification.uuid.UUIDString isEqualToString:notificationUUIDString])
+                {
                     self.gravityAnimationCompletionBlock = NULL;
                     CRToastOutwardAnimationsSetupBlock(weakSelf)();
                 }
             });
         }
     };
-    
+
     notification.state = CRToastStateEntering;
-    switch (notification.inAnimationType) {
-        case CRToastAnimationTypeLinear: {
+    switch (notification.inAnimationType)
+    {
+        case CRToastAnimationTypeLinear:
+        {
             [UIView animateWithDuration:notification.animateInTimeInterval
                              animations:inwardAnimationsBlock
                              completion:inwardAnimationsCompletionBlock];
-        } break;
-        case CRToastAnimationTypeSpring: {
+        }
+            break;
+        case CRToastAnimationTypeSpring:
+        {
             [UIView animateWithDuration:notification.animateInTimeInterval
                                   delay:0.0
                  usingSpringWithDamping:notification.animationSpringDamping
@@ -1470,11 +1668,13 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
                                 options:0
                              animations:inwardAnimationsBlock
                              completion:inwardAnimationsCompletionBlock];
-        } break;
-        case CRToastAnimationTypeGravity: {
+        }
+            break;
+        case CRToastAnimationTypeGravity:
+        {
             [notification initiateAnimator:_notificationWindow.rootViewController.view];
             [notification.animator removeAllBehaviors];
-            UIGravityBehavior *gravity = [[UIGravityBehavior alloc]initWithItems:@[notificationView, statusBarView]];
+            UIGravityBehavior *gravity = [[UIGravityBehavior alloc] initWithItems:@[notificationView, statusBarView]];
             gravity.gravityDirection = notification.inGravityDirection;
             gravity.magnitude = notification.animationGravityMagnitude;
             NSMutableArray *collisionItems = [@[notificationView] mutableCopy];
@@ -1490,12 +1690,15 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
             [notification.animator addBehavior:collision];
             [notification.animator addBehavior:rotationLock];
             self.gravityAnimationCompletionBlock = inwardAnimationsCompletionBlock;
-        } break;
+        }
+            break;
     }
-    
-    if (notification.text.length > 0 || notification.subtitleText.length > 0) {
+
+    if (notification.text.length > 0 || notification.subtitleText.length > 0)
+    {
         // Synchronous notifications (say, tapping a button that presents a toast) cause VoiceOver to read the button immediately, which interupts the toast. A short delay (not the best solution :/) allows the toast to interupt the button.
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
+        {
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:@"Alert: %@, %@", notification.text ?: @"", notification.subtitleText ?: @""]);
         });
     }
@@ -1503,28 +1706,34 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
 
 #pragma mark - Overrides
 
-- (BOOL)showingNotification {
+- (BOOL)showingNotification
+{
     return self.notifications.count > 0;
 }
 
-- (CRToast*)notification {
+- (CRToast *)notification
+{
     return _notifications.firstObject;
 }
 
 #pragma mark - UICollisionBehaviorDelegate
 
-- (void)collisionBehavior:(UICollisionBehavior*)behavior
+- (void)collisionBehavior:(UICollisionBehavior *)behavior
       endedContactForItem:(id <UIDynamicItem>)item
-   withBoundaryIdentifier:(id <NSCopying>)identifier {
-    if (self.gravityAnimationCompletionBlock) {
+   withBoundaryIdentifier:(id <NSCopying>)identifier
+{
+    if (self.gravityAnimationCompletionBlock)
+    {
         self.gravityAnimationCompletionBlock(YES);
     }
 }
 
-- (void)collisionBehavior:(UICollisionBehavior*)behavior
+- (void)collisionBehavior:(UICollisionBehavior *)behavior
       endedContactForItem:(id <UIDynamicItem>)item1
-                 withItem:(id <UIDynamicItem>)item2 {
-    if (self.gravityAnimationCompletionBlock) {
+                 withItem:(id <UIDynamicItem>)item2
+{
+    if (self.gravityAnimationCompletionBlock)
+    {
         self.gravityAnimationCompletionBlock(YES);
         self.gravityAnimationCompletionBlock = NULL;
     }
