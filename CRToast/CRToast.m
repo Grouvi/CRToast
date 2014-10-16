@@ -1180,14 +1180,10 @@ NSString *const ToastDidTouchCloseButtonNotification = @"kDidTouchToastCloseButt
     CGFloat statusBarYOffset = self.toast.displayUnderStatusBar ? (CRGetStatusBarHeight() + CRStatusBarViewUnderStatusBarYOffsetAdjustment) : 0;
     contentFrame.size.height = CGRectGetHeight(contentFrame) - statusBarYOffset;
 
-    self.imageView.frame = CGRectMake(0,
-            statusBarYOffset,
-            imageSize.width == 0 ?
-                    0 :
-                    CGRectGetHeight(contentFrame),
-            imageSize.height == 0 ?
-                    0 :
-                    CGRectGetHeight(contentFrame));
+    self.imageView.frame = CGRectMake(5,
+            statusBarYOffset + contentFrame.size.height/2 - 25,
+            imageSize.width == 0 ? 0 : 50,
+            imageSize.height == 0 ? 0 : 50);
 
     self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2;
     CGFloat buttonX = contentFrame.size.width - 5 - 40;
@@ -1196,8 +1192,8 @@ NSString *const ToastDidTouchCloseButtonNotification = @"kDidTouchToastCloseButt
     CGFloat buttonHeight = 30;
     self.closeButton.frame = (CGRect) {buttonX, buttonY, buttonWidth, buttonHeight};
 
-    CGFloat x = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame);
-    CGFloat width = CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX;
+    CGFloat x = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame)+10;
+    CGFloat width = CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonWidth - 5;
 
 
     if (self.toast.subtitleText == nil)
@@ -1225,13 +1221,13 @@ NSString *const ToastDidTouchCloseButtonNotification = @"kDidTouchToastCloseButt
 
         self.label.frame = CGRectMake(x,
                 offset + statusBarYOffset,
-                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonWidth - 5,
                 height);
 
 
         self.subtitleLabel.frame = CGRectMake(x,
                 height + offset + statusBarYOffset,
-                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonX,
+                CGRectGetWidth(contentFrame) - x - kCRStatusBarViewNoImageRightContentInset - buttonWidth - 5,
                 subtitleHeight);
     }
 }
