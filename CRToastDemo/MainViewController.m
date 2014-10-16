@@ -84,8 +84,15 @@
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeAll;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleClose:) name:ToastDidTouchCloseButtonNotification object:nil];
 }
 
+-(void)handleClose:(NSNotification *)notification
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"KOKO" message:@"Close" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
 - (void)layoutSubviews {
     self.scrollView.contentInset = UIEdgeInsetsMake([self.topLayoutGuide length],
                                                     0,
