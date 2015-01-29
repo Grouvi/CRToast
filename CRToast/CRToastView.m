@@ -175,7 +175,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                                                   self.toast.showActivityIndicator,
                                                                   self.toast.activityViewAlignment);
 
-    CGFloat buttonX = contentFrame.size.width - 60;
+    CGFloat buttonX = contentFrame.size.width - 50;
     CGFloat buttonY = 0;
     CGFloat buttonWidth = 44;
     CGFloat buttonHeight = contentFrame.size.height;
@@ -203,13 +203,13 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
 
         self.label.frame = CGRectMake(x,
                                       offset+statusBarYOffset,
-                                      CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset,
+                                      CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset- 50,
                                       height);
 
 
         self.subtitleLabel.frame = CGRectMake(x,
                                               height+offset+statusBarYOffset,
-                                              CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset,
+                                              CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
 }
