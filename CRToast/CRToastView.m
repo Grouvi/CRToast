@@ -236,6 +236,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     }
     _imageView.image = toast.image;
     _imageView.contentMode = toast.imageContentMode;
+    _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
     _activityIndicator.activityIndicatorViewStyle = toast.activityIndicatorViewStyle;
     self.backgroundColor = toast.backgroundColor;
 
