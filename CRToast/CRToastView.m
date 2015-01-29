@@ -212,6 +212,8 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
+    _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
+    _imageView.clipsToBounds = YES;
 }
 
 #pragma mark - Overrides
@@ -236,8 +238,6 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     }
     _imageView.image = toast.image;
     _imageView.contentMode = toast.imageContentMode;
-    _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
-    _imageView.clipsToBounds = YES;
     _activityIndicator.activityIndicatorViewStyle = toast.activityIndicatorViewStyle;
     self.backgroundColor = toast.backgroundColor;
 
