@@ -177,7 +177,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
 
     CGFloat buttonX = contentFrame.size.width - 60;
     CGFloat buttonY = 0;
-    CGFloat buttonWidth = 54;
+    CGFloat buttonWidth = 44;
     CGFloat buttonHeight = contentFrame.size.height;
     self.closeButton.frame = (CGRect) {buttonX, buttonY, buttonWidth, buttonHeight};
 
