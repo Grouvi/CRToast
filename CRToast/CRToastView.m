@@ -147,10 +147,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       statusBarYOffset,
                                       imageSize.width == 0 ?
                                       0 :
-                                      CGRectGetHeight(contentFrame),
+                                      CGRectGetHeight(contentFrame)-14,
                                       imageSize.height == 0 ?
                                       0 :
-                                      CGRectGetHeight(contentFrame));
+                                      CGRectGetHeight(contentFrame)-14);
 
     CGFloat imageWidth = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame);
     CGFloat x = CRContentXOffsetForViewAlignmentAndWidth(self.toast.imageAlignment, imageWidth);
@@ -187,15 +187,22 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       width,
                                       CGRectGetHeight(contentFrame));
     } else {
+
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        UIFont *titleFont = orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown ? self.toast.font : [UIFont fontWithName:self.toast.font.fontName size:12];
         CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
-                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                        attributes:@{NSFontAttributeName : self.toast.font}
+                                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                        attributes:@{NSFontAttributeName : titleFont}
                                                            context:nil].size.height,
                              CGRectGetHeight(contentFrame));
+
+        height = ceilf(height);
+        UIFont *subtitleFont = orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown ? self.toast.subtitleFont : [UIFont fontWithName:self.toast.subtitleFont.fontName size:10];
         CGFloat subtitleHeight = [self.toast.subtitleText boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
-                                                                       options:NSStringDrawingUsesLineFragmentOrigin
-                                                                    attributes:@{NSFontAttributeName : self.toast.subtitleFont }
+                                                                       options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                                    attributes:@{NSFontAttributeName : subtitleFont}
                                                                        context:nil].size.height;
+        subtitleHeight = ceilf(subtitleHeight);
         if ((CGRectGetHeight(contentFrame) - (height + subtitleHeight)) < 5) {
             subtitleHeight = (CGRectGetHeight(contentFrame) - (height))-10;
         }
@@ -206,15 +213,13 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset- 50,
                                       height);
 
-
         self.subtitleLabel.frame = CGRectMake(x,
                                               height+offset+statusBarYOffset,
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
-    _imageView.frame = (CGRect){10, _imageView.frame.origin.y, 50,50};
-    _imageView.center = (CGPoint){_imageView.center.x, self.center.y};
-    _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
+     _imageView.center = (CGPoint){_imageView.center.x, self.center.y};
+    //_imageView.layer.cornerRadius = _imageView.frame.size.width/2;
     _imageView.clipsToBounds = YES;
 }
 
