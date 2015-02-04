@@ -212,6 +212,8 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
+    _imageView.frame = (CGRect){10, _imageView.frame.origin.y, 50,50};
+    _imageView.center = (CGPoint){_imageView.center.x, self.center.y};
     _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
     _imageView.clipsToBounds = YES;
 }
