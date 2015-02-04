@@ -28,7 +28,7 @@ static CGFloat CRImageViewFrameXOffsetForAlignment(CRToastAccessoryViewAlignment
     CGFloat xOffset = 0;
 
     if (alignment == CRToastAccessoryViewAlignmentLeft) {
-        xOffset = 0;
+        xOffset = 5;
     } else if (alignment == CRToastAccessoryViewAlignmentCenter) {
         // Calculate mid point of contentSize, then offset for x for full image width
         // that way center of image will be center of content view
