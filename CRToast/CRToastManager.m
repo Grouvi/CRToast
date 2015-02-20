@@ -233,6 +233,7 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
 - (void)dismissAllNotifications:(BOOL)animated {
     [self dismissNotification:animated];
     [self.notifications removeAllObjects];
+    [self.notificationView removeFromSuperview];
 }
 
 - (void)dismissAllNotificationsWithIdentifier:(NSString *)identifer animated:(BOOL)animated {

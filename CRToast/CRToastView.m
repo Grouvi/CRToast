@@ -118,8 +118,9 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         self.isAccessibilityElement = YES;
 
         UIButton *closeButton = [[UIButton alloc] initWithFrame:(CGRectZero)];
-        [closeButton setTitle:@"Close" forState:UIControlStateNormal];
+        [closeButton setTitle:@"Close " forState:UIControlStateNormal];
         closeButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        closeButton.titleLabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:closeButton];
         self.closeButton = closeButton;
         [self.closeButton addTarget:self action:@selector(didTouchCloseButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -175,9 +176,9 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                                                   self.toast.showActivityIndicator,
                                                                   self.toast.activityViewAlignment);
 
-    CGFloat buttonX = contentFrame.size.width - 50;
+    CGFloat buttonX = contentFrame.size.width - 60;
     CGFloat buttonY = 0;
-    CGFloat buttonWidth = 44;
+    CGFloat buttonWidth = 60;
     CGFloat buttonHeight = contentFrame.size.height;
     self.closeButton.frame = (CGRect) {buttonX, buttonY, buttonWidth, buttonHeight};
 
@@ -200,12 +201,11 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
             subtitleHeight = (CGRectGetHeight(contentFrame) - (height))-10;
         }
         CGFloat offset = (CGRectGetHeight(contentFrame) - (height + subtitleHeight))/2;
-
+        
         self.label.frame = CGRectMake(x,
                                       offset+statusBarYOffset,
                                       CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset- 50,
                                       height);
-
 
         self.subtitleLabel.frame = CGRectMake(x,
                                               height+offset+statusBarYOffset,
