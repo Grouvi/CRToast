@@ -36,6 +36,11 @@ typedef void (^CRToastAnimationStepBlock)(void);
 
 @implementation CRToastManager
 
+
++(BOOL)isShowingNotification {
+    return [[self manager] showingNotification];
+}
+
 + (void)setDefaultOptions:(NSDictionary*)defaultOptions {
     [CRToast setDefaultOptions:defaultOptions];
 }
@@ -86,6 +91,12 @@ typedef void (^CRToastAnimationStepBlock)(void);
     return sharedInstance;
 }
 
+
++(void)replaceNotificationWithOptions:(NSDictionary *)options {
+    CRToast* notification = [CRToast notificationWithOptions:options appearanceBlock:nil completionBlock:nil];
+    [[self manager] refreshNotification:notification];
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -118,9 +129,11 @@ CRToastAnimationCompletionBlock CRToastInwardAnimationsCompletionBlock(CRToastMa
             notification.state = CRToastStateDisplaying;
             if (!notification.forceUserInteraction) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(notification.timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    if (weakSelf.notification.state == CRToastStateDisplaying && [weakSelf.notification.uuid.UUIDString isEqualToString:notificationUUIDString]) {
-                        weakSelf.gravityAnimationCompletionBlock = NULL;
-                        CRToastOutwardAnimationsSetupBlock(weakSelf)();
+                    if ([notification isEqual:[weakSelf.notifications lastObject]]) {
+                        if (notification.state == CRToastStateDisplaying && [notification.uuid.UUIDString isEqualToString:notificationUUIDString]) {
+                            weakSelf.gravityAnimationCompletionBlock = NULL;
+                            CRToastOutwardAnimationsSetupBlock(weakSelf)();
+                        }
                     }
                 });
             }
@@ -260,6 +273,24 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
     if (!showingNotification) {
         [self displayNotification:notification];
     }
+}
+
+
+-(void) refreshNotification:(CRToast*) notification {
+    [(CRToastView*)self.notificationView setToast:notification];
+    
+    [_notifications removeAllObjects];
+    [_notifications addObject:notification];
+    
+    __weak __block typeof(self) weakSelf = self;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissLastNotification:) object:weakSelf];
+    notification.state = CRToastStateEntering;
+    [self performSelector:@selector(dismissLastNotification:) withObject:weakSelf afterDelay:notification.timeInterval];
+}
+
+
+-(void) dismissLastNotification:(CRToastManager*) weakSelf{
+    CRToastOutwardAnimationsSetupBlock(weakSelf)();
 }
 
 - (void)displayNotification:(CRToast*)notification {

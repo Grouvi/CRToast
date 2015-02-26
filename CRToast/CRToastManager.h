@@ -14,6 +14,7 @@
 
 @interface CRToastManager : NSObject
 
+
 /**
  Sets the default options that CRToast will use when displaying a notification
  @param defaultOptions A dictionary of the options that are to be used as defaults for all subsequent
@@ -78,5 +79,9 @@
  If no identifier is specified for the @c kCRToastIdentifier when created, it will be excluded from this collection.
  */
 + (NSArray *)notificationIdentifiersInQueue;
+
++ (BOOL) isShowingNotification;
+
++ (void) replaceNotificationWithOptions:(NSDictionary*) options;
 
 @end

@@ -118,9 +118,8 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         self.isAccessibilityElement = YES;
 
         UIButton *closeButton = [[UIButton alloc] initWithFrame:(CGRectZero)];
-        [closeButton setTitle:@"Close " forState:UIControlStateNormal];
-        closeButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        closeButton.titleLabel.textAlignment = NSTextAlignmentRight;
+        
+        [closeButton setImage:[UIImage imageNamed:@"btnClose"] forState:UIControlStateNormal];
         [self addSubview:closeButton];
         self.closeButton = closeButton;
         [self.closeButton addTarget:self action:@selector(didTouchCloseButton:) forControlEvents:UIControlEventTouchUpInside];
