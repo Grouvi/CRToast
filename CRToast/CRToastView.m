@@ -109,12 +109,12 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         label.userInteractionEnabled = NO;
         [self addSubview:label];
         self.label = label;
-
+        
         UILabel *subtitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         subtitleLabel.userInteractionEnabled = NO;
         [self addSubview:subtitleLabel];
         self.subtitleLabel = subtitleLabel;
-
+        
         self.isAccessibilityElement = YES;
 
         UIButton *closeButton = [[UIButton alloc] initWithFrame:(CGRectZero)];
@@ -134,6 +134,8 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    UIInterfaceOrientation orientation = CRGetDeviceOrientation();
+    
     CGRect contentFrame = self.bounds;
     CGSize imageSize = self.imageView.image.size;
 
@@ -187,7 +189,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       width,
                                       CGRectGetHeight(contentFrame));
     } else {
-        CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+        CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, 30)
                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                         attributes:@{NSFontAttributeName : self.toast.font}
                                                            context:nil].size.height,
@@ -201,6 +203,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         }
         CGFloat offset = (CGRectGetHeight(contentFrame) - (height + subtitleHeight))/2;
         
+        if (UIDeviceOrientationIsLandscape(orientation)){
+            offset = 0;
+            subtitleHeight = 15;
+        }
         self.label.frame = CGRectMake(x,
                                       offset+statusBarYOffset,
                                       CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset- 50,
@@ -211,7 +217,13 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
-    _imageView.frame = (CGRect){10, _imageView.frame.origin.y, 50,50};
+    CGFloat imageDimensionBasedOnOrientation;
+    if (UIDeviceOrientationIsLandscape(orientation)) {
+        imageDimensionBasedOnOrientation = 24;
+    } else {
+        imageDimensionBasedOnOrientation = 50;
+    }
+    _imageView.frame = (CGRect){10, _imageView.frame.origin.y, imageDimensionBasedOnOrientation,imageDimensionBasedOnOrientation};
     _imageView.center = (CGPoint){_imageView.center.x, self.center.y};
     _imageView.layer.cornerRadius = _imageView.frame.size.width/2;
     _imageView.clipsToBounds = YES;
