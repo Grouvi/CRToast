@@ -189,12 +189,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       width,
                                       CGRectGetHeight(contentFrame));
     } else {
-                                               attributes:@{NSFontAttributeName : titleFont}
 
         CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, 30)
                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                         attributes:@{NSFontAttributeName : self.toast.font}
-
                                                            context:nil].size.height,
                              CGRectGetHeight(contentFrame));
 
@@ -224,6 +222,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
+
     CGFloat imageDimensionBasedOnOrientation;
     if (UIDeviceOrientationIsLandscape(orientation)) {
         imageDimensionBasedOnOrientation = 24;
