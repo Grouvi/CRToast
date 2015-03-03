@@ -994,5 +994,15 @@ static CGFloat kCRCollisionTweak = 0.5;
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:view];
 }
 
+- (void)dealloc
+{
+    NSLog(@"Dealloc CRToast");
+    for(UIGestureRecognizer *gestureRecognizer in self.gestureRecognizers)
+    {
+        gestureRecognizer.delegate = nil;
+    }
+}
+
+
 @end
 
