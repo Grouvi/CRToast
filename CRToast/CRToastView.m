@@ -28,7 +28,7 @@ static CGFloat CRImageViewFrameXOffsetForAlignment(CRToastAccessoryViewAlignment
     CGFloat xOffset = 0;
 
     if (alignment == CRToastAccessoryViewAlignmentLeft) {
-        xOffset = 0;
+        xOffset = 5;
     } else if (alignment == CRToastAccessoryViewAlignmentCenter) {
         // Calculate mid point of contentSize, then offset for x for full image width
         // that way center of image will be center of content view
@@ -149,10 +149,10 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       statusBarYOffset,
                                       imageSize.width == 0 ?
                                       0 :
-                                      CGRectGetHeight(contentFrame),
+                                      CGRectGetHeight(contentFrame)-14,
                                       imageSize.height == 0 ?
                                       0 :
-                                      CGRectGetHeight(contentFrame));
+                                      CGRectGetHeight(contentFrame)-14);
 
     CGFloat imageWidth = imageSize.width == 0 ? kCRStatusBarViewNoImageLeftContentInset : CGRectGetMaxX(_imageView.frame);
     CGFloat x = CRContentXOffsetForViewAlignmentAndWidth(self.toast.imageAlignment, imageWidth);
@@ -189,15 +189,20 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                       width,
                                       CGRectGetHeight(contentFrame));
     } else {
+
         CGFloat height = MIN([self.toast.text boundingRectWithSize:CGSizeMake(width, 30)
                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                         attributes:@{NSFontAttributeName : self.toast.font}
                                                            context:nil].size.height,
                              CGRectGetHeight(contentFrame));
+
+        height = ceilf(height);
+        UIFont *subtitleFont = orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown ? self.toast.subtitleFont : [UIFont fontWithName:self.toast.subtitleFont.fontName size:10];
         CGFloat subtitleHeight = [self.toast.subtitleText boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
-                                                                       options:NSStringDrawingUsesLineFragmentOrigin
-                                                                    attributes:@{NSFontAttributeName : self.toast.subtitleFont }
+                                                                       options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                                    attributes:@{NSFontAttributeName : subtitleFont}
                                                                        context:nil].size.height;
+        subtitleHeight = ceilf(subtitleHeight);
         if ((CGRectGetHeight(contentFrame) - (height + subtitleHeight)) < 5) {
             subtitleHeight = (CGRectGetHeight(contentFrame) - (height))-10;
         }
@@ -217,6 +222,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
                                               CGRectGetWidth(contentFrame)-x-kCRStatusBarViewNoImageRightContentInset - 50,
                                               subtitleHeight);
     }
+
     CGFloat imageDimensionBasedOnOrientation;
     if (UIDeviceOrientationIsLandscape(orientation)) {
         imageDimensionBasedOnOrientation = 24;
