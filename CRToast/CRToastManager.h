@@ -84,4 +84,7 @@
 
 + (void) replaceNotificationWithOptions:(NSDictionary*) options;
 
+
++ (void) setShouldAutorotate:(BOOL) autorotate;
+
 @end

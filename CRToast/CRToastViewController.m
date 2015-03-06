@@ -28,7 +28,7 @@ UIStatusBarStyle statusBarStyle;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _autorotate = YES;
+        _autorotate = NO;
     }
     return self;
 }

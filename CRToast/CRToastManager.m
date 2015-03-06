@@ -82,6 +82,10 @@ typedef void (^CRToastAnimationStepBlock)(void);
     return [[self manager] notificationIdentifiersInQueue];
 }
 
++ (void) setShouldAutorotate:(BOOL)autorotate {
+    [[self manager] setShouldAutorotate:autorotate];
+}
+
 + (instancetype)manager {
     static dispatch_once_t once;
     static id sharedInstance;
@@ -402,6 +406,11 @@ inwardCompletionAnimationBlock:(CRToastAnimationCompletionBlock)inwardAnimations
 
 
 #pragma mark - Overrides
+
+-(void) setShouldAutorotate:(BOOL) autorotate {
+    CRToastViewController* rootViewController = (CRToastViewController*)_notificationWindow.rootViewController;
+    rootViewController.autorotate = autorotate;
+}
 
 - (BOOL)showingNotification {
     return self.notifications.count > 0;
