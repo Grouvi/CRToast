@@ -33,10 +33,14 @@ UIStatusBarStyle statusBarStyle;
     return self;
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return [UIApplication sharedApplication].statusBarHidden;
-}
 
+-(BOOL)prefersStatusBarHidden {
+    UIInterfaceOrientation orientation = CRGetDeviceOrientation();
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        return YES;
+    }
+    return NO;
+}
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return statusBarStyle;
 }

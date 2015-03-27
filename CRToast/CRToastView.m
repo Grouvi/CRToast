@@ -211,6 +211,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
         if (UIDeviceOrientationIsLandscape(orientation)){
             offset = 0;
             subtitleHeight = 15;
+            x += 5;
         }
         self.label.frame = CGRectMake(x,
                                       offset+statusBarYOffset,
