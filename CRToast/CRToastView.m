@@ -92,7 +92,7 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     if (self) {
         self.userInteractionEnabled = YES;
         self.accessibilityLabel = NSStringFromClass([self class]);
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        //self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         imageView.userInteractionEnabled = NO;
@@ -130,6 +130,16 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
 -(void)didTouchCloseButton:(id)sender
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:ToastDidTouchCloseButtonNotification object:sender];
+}
+
+
+-(void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+}
+
+
+-(void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
 }
 
 - (void)layoutSubviews {

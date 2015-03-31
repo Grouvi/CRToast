@@ -33,9 +33,7 @@
 		5E2FFB6918367C01003333F8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E2FFB6818367C01003333F8 /* Images.xcassets */; };
 		5E2FFB8E18367CA3003333F8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2FFB8C18367CA3003333F8 /* MainViewController.m */; };
 		5E2FFB8F18367CA3003333F8 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2FFB8D18367CA3003333F8 /* MainViewController.xib */; };
-
 		AAF56E40E966478D95F1083B /* libPods-Acceptance Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3C952144CC436CA47D11A2 /* libPods-Acceptance Tests.a */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,10 +94,8 @@
 		5E2FFB8B18367CA3003333F8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		5E2FFB8C18367CA3003333F8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5E2FFB8D18367CA3003333F8 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-
 		79DA33C1BA40E2B7D0BAEEDB /* Pods-Acceptance Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Acceptance Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Acceptance Tests/Pods-Acceptance Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BB3C952144CC436CA47D11A2 /* libPods-Acceptance Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Acceptance Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				5E2FFB8A18367C85003333F8 /* MainViewController */,
-				71F0FA1877A908DEB65F32DD /* test.jpg */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -411,7 +406,6 @@
 				5E2FFB6118367C01003333F8 /* InfoPlist.strings in Resources */,
 				5E2FFB8F18367CA3003333F8 /* MainViewController.xib in Resources */,
 				5E2FFB6918367C01003333F8 /* Images.xcassets in Resources */,
-				71F0F9018F67FCF43F04DA81 /* test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,13 +691,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CRToastDemo/CRToastDemo-Prefix.pch";
 				INFOPLIST_FILE = "CRToastDemo/CRToastDemo-Info.plist";
 				PRODUCT_NAME = CRToastDemo;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a5ee0904-b646-4a2a-a09b-6001b1d7b16a";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -713,13 +707,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CRToastDemo/CRToastDemo-Prefix.pch";
 				INFOPLIST_FILE = "CRToastDemo/CRToastDemo-Info.plist";
 				PRODUCT_NAME = CRToastDemo;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a5ee0904-b646-4a2a-a09b-6001b1d7b16a";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
