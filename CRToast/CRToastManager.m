@@ -281,11 +281,14 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
 
 
 -(void) refreshNotification:(CRToast*) notification {
-    [(CRToastView*)self.notificationView setToast:notification];
-    
+    _notificationWindow.rootViewController.view.gestureRecognizers = nil;
     [_notifications removeAllObjects];
     [_notifications addObject:notification];
-    
+
+
+    [(CRToastView*)self.notificationView setToast:notification];
+    _notificationWindow.rootViewController.view.gestureRecognizers = notification.gestureRecognizers;
+
     __weak __block typeof(self) weakSelf = self;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(dismissLastNotification:) object:weakSelf];
     notification.state = CRToastStateEntering;
